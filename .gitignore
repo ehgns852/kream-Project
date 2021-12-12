@@ -38,3 +38,4 @@ out/
 
 ### my Ignore ###
 src/main/resources/application.yml
+build.gradle
