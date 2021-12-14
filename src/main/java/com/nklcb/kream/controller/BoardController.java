@@ -1,7 +1,7 @@
 package com.nklcb.kream.controller;
 
+import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.form.BoardForm;
-import com.nklcb.kream.model.Board;
 import com.nklcb.kream.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

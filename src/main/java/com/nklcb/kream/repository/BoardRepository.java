@@ -1,7 +1,7 @@
 package com.nklcb.kream.repository;
 
 
-import com.nklcb.kream.model.Board;
+import com.nklcb.kream.entity.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {

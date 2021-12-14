@@ -1,4 +1,4 @@
-package com.nklcb.kream.model;
+package com.nklcb.kream.entity;
 
 import lombok.Getter;
 import lombok.ToString;
