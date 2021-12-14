@@ -4,15 +4,19 @@ import com.nklcb.kream.form.BoardForm;
 import com.nklcb.kream.model.Board;
 import com.nklcb.kream.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/board")
 public class BoardController {
 
@@ -40,13 +44,15 @@ public class BoardController {
     }
 
     @PostMapping("/form")
-    public String write(BoardForm boardForm){
+    public String write(@Valid @ModelAttribute(name = "board") BoardForm boardForm, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            log.info("write has errors!");
+
+            return "board/form";
+        }
         Board board = new Board(boardForm.getTitle(), boardForm.getContent());
 
-        System.out.println("board = " + board);
         boardRepository.save(board);
-        System.out.println("board.save = " + board);
-
 
         return "redirect:/board/list";
 
