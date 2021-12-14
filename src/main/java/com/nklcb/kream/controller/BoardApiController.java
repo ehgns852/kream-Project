@@ -3,6 +3,8 @@ package com.nklcb.kream.controller;
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.form.BoardForm;
 import com.nklcb.kream.repository.BoardRepository;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,9 @@ public class BoardApiController {
 
 
     @GetMapping("/boards")
-    public List<Board> all() {
-        return boardRepository.findAll();
+    public Result all() {
+        List<Board> all = boardRepository.findAll();
+        return new Result(all);
     }
 
     @PostMapping("/boards")
@@ -30,5 +33,15 @@ public class BoardApiController {
     public Board one(@PathVariable Long id) {
         return boardRepository.findById(id).orElse(null);
     }
+
+
+    @AllArgsConstructor
+    @Getter
+    static class Result<T>{
+        private T data;
+
+
+    }
+
 
 }
