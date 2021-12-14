@@ -6,12 +6,10 @@ import com.nklcb.kream.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,9 +28,14 @@ public class BoardController {
     }
 
     @GetMapping("/form")
-    public String form(Model model) {
-        BoardForm boardForm = new BoardForm();
-        model.addAttribute("board",boardForm);
+    public String form(Model model, @RequestParam(required = false) Long id) {
+        if (id == null) {
+            BoardForm boardForm = new BoardForm();
+            model.addAttribute("board",boardForm);
+        } else {
+            Board board = boardRepository.findById(id).orElse(null);
+            model.addAttribute("board",board);
+        }
         return "board/form";
     }
 
