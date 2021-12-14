@@ -3,7 +3,9 @@ package com.nklcb.kream;
 
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.repository.BoardRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -17,10 +19,10 @@ public class InitTestData {
 
 
     @PostConstruct
-    public void saveBoard(){
-        Board board = new Board("hello World", "Test Data");
-        boardRepository.save(board);
-        Board board2 = new Board("hello ", "Test Data2");
-        boardRepository.save(board2);
+    public void dataInit() {
+        for (int i = 0; i < 100; i++) {
+            Board board = new Board("title" + i, "content" +i);
+            boardRepository.save(board);
+        }
     }
 }
