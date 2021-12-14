@@ -15,10 +15,13 @@ public class BoardForm {
     private Long id;
 
     @NotNull
-    @Size(min = 2, max = 20)
+    @Size(min = 2, max = 20, message = "제목은 2자이상 30자 이하입니다.")
     private String title;
 
+    @NotNull
+    @Size(min = 1, max = 500)
     private String content;
+
 
     public BoardForm() {
     }
