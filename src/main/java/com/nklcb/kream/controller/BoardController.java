@@ -27,10 +27,11 @@ public class BoardController {
     private final BoardRepository boardRepository;
 
     @GetMapping("/list")
-    public String list(Model model, @PageableDefault(size = 20) Pageable pageable) {
+    public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
         Page<Board> boards = boardRepository.findAll(pageable);
         int startPage = boards.getPageable().getPageNumber() + 1;
         int endPage = boards.getTotalPages();
+        log.info("endPage = {}", endPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
