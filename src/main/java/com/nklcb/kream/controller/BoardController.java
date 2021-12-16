@@ -29,9 +29,8 @@ public class BoardController {
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
         Page<Board> boards = boardRepository.findAll(pageable);
-        int startPage = boards.getPageable().getPageNumber() + 1;
-        int endPage = boards.getTotalPages();
-        log.info("endPage = {}", endPage);
+        int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
