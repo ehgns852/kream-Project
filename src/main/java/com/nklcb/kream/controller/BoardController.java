@@ -27,8 +27,9 @@ public class BoardController {
     private final BoardRepository boardRepository;
 
     @GetMapping("/list")
-    public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Page<Board> boards = boardRepository.findAll(pageable);
+    public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable,
+                       @RequestParam(required = false, defaultValue = "") String searchText) {
+        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText,pageable);
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
