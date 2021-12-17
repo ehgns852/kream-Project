@@ -1,6 +1,8 @@
 package com.nklcb.kream.entity;
 
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 
 @Entity
