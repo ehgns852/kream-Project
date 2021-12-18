@@ -19,17 +19,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    private DataSource dataSource;
+    private  DataSource dataSource;
+
+
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/account/login")
                 .permitAll()
                 .and()
                 .logout()
@@ -41,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
+//                .passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("select username,password,enabled "
                         + "from user "
                         + "where username = ?")
@@ -50,8 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         + "where username = ?");
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
+}
 
