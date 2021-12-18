@@ -5,6 +5,7 @@ import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.repository.UserRepository;
+import com.nklcb.kream.service.UserService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import javax.annotation.PostConstruct;
 public class InitTestData {
 
     private final BoardRepository boardRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
 
 
@@ -28,6 +29,6 @@ public class InitTestData {
             boardRepository.save(board);
         }
         User user = new User("dobi", "qkqh", true);
-        userRepository.save(user);
+        userService.save(user);
     }
 }

@@ -36,4 +36,9 @@ public class UserRole {
         this.user = user;
         this.role = role;
     }
+
+    public static UserRole addUserRole(User user, Role role) {
+        UserRole userRole = new UserRole(user, role);
+        return  userRole;
+    }
 }

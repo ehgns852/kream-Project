@@ -30,7 +30,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private boolean enabled;
 
     @OneToMany(mappedBy = "user")
@@ -40,6 +39,10 @@ public class User {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
+    }
+
+    public User(String password) {
+        this.password = password;
     }
 
     public void signUp(String username, String password, boolean enabled, UserRole userRole) {
