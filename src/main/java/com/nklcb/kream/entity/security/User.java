@@ -2,7 +2,9 @@ package com.nklcb.kream.entity.security;
 
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -14,6 +16,7 @@ import static javax.persistence.GenerationType.*;
 
 @Entity
 @NoArgsConstructor
+@Getter
 public class User {
 
     @Id
@@ -37,5 +40,14 @@ public class User {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
+    }
+
+    public void signUp(String username, String password, boolean enabled, UserRole userRole) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.userRoles.add(userRole);
+        userRole.setUser(this);
+
     }
 }

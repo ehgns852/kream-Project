@@ -1,6 +1,8 @@
 package com.nklcb.kream.entity.security;
 
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 
 @Entity
+@Getter
 public class Role {
 
     @Id
