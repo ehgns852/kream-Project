@@ -1,6 +1,10 @@
 package com.nklcb.kream.controller;
 
+import com.nklcb.kream.entity.security.Role;
 import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.security.UserRole;
+import com.nklcb.kream.repository.RoleRepository;
+import com.nklcb.kream.repository.UserRoleRepository;
 import com.nklcb.kream.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AccountController {
 
     private final UserService userService;
+    private final UserRoleRepository userRoleRepository;
+    private final RoleRepository roleRepository;
 
     @GetMapping("/login")
     public String login() {
@@ -36,7 +42,8 @@ public class AccountController {
         log.info("in account Controller");
 
         userService.save(user);
-        log.info("success userservice.save");
+
+        log.info("success userService.save");
         return "redirect:/";
     }
 }

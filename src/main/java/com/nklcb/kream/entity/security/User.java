@@ -1,9 +1,7 @@
 package com.nklcb.kream.entity.security;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
@@ -17,6 +15,8 @@ import static javax.persistence.GenerationType.*;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
+@ToString(of = {"id", "username", "password", "enabled"})
 public class User {
 
     @Id
@@ -27,7 +27,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable
+            = false)
     private String password;
 
     private boolean enabled;

@@ -2,6 +2,8 @@ package com.nklcb.kream.entity.security;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -13,6 +15,8 @@ import static javax.persistence.GenerationType.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@ToString(of = {"id", "name"})
 public class Role {
 
     @Id

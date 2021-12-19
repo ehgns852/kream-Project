@@ -2,8 +2,13 @@ package com.nklcb.kream.entity.security;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
+
+import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
@@ -11,6 +16,8 @@ import static javax.persistence.GenerationType.*;
 @Entity
 @Table(name = "user_role")
 @Getter
+@NoArgsConstructor
+@ToString(of = {"id","user","role"})
 public class UserRole {
 
 
@@ -38,7 +45,7 @@ public class UserRole {
     }
 
     public static UserRole addUserRole(User user, Role role) {
-        UserRole userRole = new UserRole(user, role);
-        return  userRole;
+        UserRole userRole = new UserRole(user,role);
+        return userRole;
     }
 }
