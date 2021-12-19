@@ -6,16 +6,14 @@ import com.nklcb.kream.entity.security.Role;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.repository.RoleRepository;
-import com.nklcb.kream.repository.UserRepository;
 import com.nklcb.kream.service.UserService;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+
+import static com.nklcb.kream.entity.security.Role.*;
 
 @Component
 @RequiredArgsConstructor
@@ -35,14 +33,11 @@ public class InitTestData {
             Board board = new Board("title" + i, "content" +i);
             boardRepository.save(board);
         }
-        Role role = new Role("ADMIN");
-        Role role2 = new Role("USER");
-        roleRepository.save(role);
-        roleRepository.save(role2);
-        User user = new User("123", "123", true);
-        log.info("Before test save = {}" , user);
-        userService.save(user);
-        log.info("Test save = {}", user.getUserRoles());
+        roleRepository.save(ADMIN);
+        roleRepository.save(USER);
+        UserDto userDto = new UserDto("123", "123");
+        log.info("Before test save = {}" , userDto);
+        userService.save(userDto);
 
 
     }

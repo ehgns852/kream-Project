@@ -2,6 +2,7 @@ package com.nklcb.kream.entity.security;
 
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import static javax.persistence.GenerationType.*;
 @Getter
 @Setter
 @ToString(of = {"id", "username", "password", "enabled"})
+@Slf4j
 public class User {
 
     @Id
@@ -51,6 +53,9 @@ public class User {
         this.enabled = enabled;
         this.userRoles.add(userRole);
         userRole.setUser(this);
+
+        log.info("User.signup ={}", this);
+
 
     }
 }

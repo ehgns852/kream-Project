@@ -1,8 +1,7 @@
 package com.nklcb.kream.controller;
 
-import com.nklcb.kream.entity.security.Role;
+import com.nklcb.kream.UserDto;
 import com.nklcb.kream.entity.security.User;
-import com.nklcb.kream.entity.security.UserRole;
 import com.nklcb.kream.repository.RoleRepository;
 import com.nklcb.kream.repository.UserRoleRepository;
 import com.nklcb.kream.service.UserService;
@@ -11,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/account")
@@ -32,13 +31,12 @@ public class AccountController {
 
 
     @GetMapping("/register")
-    public String getRegister(Model model, User user){
-        model.addAttribute("user", user);
+    public String getRegister(@ModelAttribute(name = "user") UserDto user){
         return "account/register";
     }
 
     @PostMapping("/register")
-    public String register(User user) {
+    public String register(@ModelAttribute(name = "user") UserDto user) {
 
         log.info("in account Controller");
 
