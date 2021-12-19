@@ -11,6 +11,7 @@ import com.nklcb.kream.service.UserService;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import javax.annotation.PostConstruct;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class InitTestData {
 
     private final BoardRepository boardRepository;
@@ -38,7 +40,10 @@ public class InitTestData {
         roleRepository.save(role);
         roleRepository.save(role2);
         User user = new User("123", "123", true);
+        log.info("Before test save = {}" , user);
         userService.save(user);
+        log.info("Test save = {}", user.getUserRoles());
+
 
     }
 }

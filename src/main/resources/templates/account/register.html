@@ -20,7 +20,7 @@
 <body class="text-center">
 <main class="form-signin">
   <form class="form-signin" th:action="@{/account/register}" method="post">
-    <img class="mb-4" src="https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="72">
+    <a th:href="@{/}"><img class="mb-4" src="https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="72"></a>
     <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
     <div class="alert alert-danger" role="alert" th:if="${param.error}">
