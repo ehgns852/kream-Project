@@ -21,7 +21,7 @@ import javax.annotation.PostConstruct;
 public class InitTestData {
 
     private final BoardRepository boardRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final RoleRepository roleRepository;
 
 
@@ -33,12 +33,12 @@ public class InitTestData {
             Board board = new Board("title" + i, "content" +i);
             boardRepository.save(board);
         }
-        User user = new User("dobi", "qkqh", true);
-        userRepository.save(user);
         Role role = new Role("ADMIN");
         Role role2 = new Role("USER");
         roleRepository.save(role);
         roleRepository.save(role2);
+        User user = new User("123", "123", true);
+        userService.save(user);
 
     }
 }

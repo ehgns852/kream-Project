@@ -30,6 +30,7 @@ public class AccountController {
         return "account/login";
     }
 
+
     @GetMapping("/register")
     public String getRegister(Model model, User user){
         model.addAttribute("user", user);
