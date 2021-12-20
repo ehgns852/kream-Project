@@ -34,7 +34,7 @@ public class User {
 
     private boolean enabled;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();
 
     public User(String username, String password, boolean enabled) {

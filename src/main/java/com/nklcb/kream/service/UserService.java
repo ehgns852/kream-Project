@@ -28,21 +28,15 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final UserRoleRepository userRoleRepository;
-
 
     @Transactional
-    public void save(UserDto userDto) {
+    public void save(User user) {
         log.info("USER SERVICE IN");
         //클라이언트에서 회원 가입시 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
         log.info("encoder success");
 
-        User user = new User(userDto.getUsername(), encodedPassword, true );
-
-
         UserRole userRole = UserRole.addUserRole(user, USER);
-        userRoleRepository.save(userRole);
         log.info("save userRole = {}", userRole);
 
         user.signUp(user.getUsername(), encodedPassword, true, userRole);

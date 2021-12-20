@@ -31,12 +31,12 @@ public class AccountController {
 
 
     @GetMapping("/register")
-    public String getRegister(@ModelAttribute(name = "user") UserDto user){
+    public String getRegister(@ModelAttribute(name = "user") User user){
         return "account/register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute(name = "user") UserDto user) {
+    public String register(@ModelAttribute(name = "user") User user) {
 
         log.info("in account Controller");
 

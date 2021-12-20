@@ -35,9 +35,9 @@ public class InitTestData {
         }
         roleRepository.save(ADMIN);
         roleRepository.save(USER);
-        UserDto userDto = new UserDto("123", "123");
-        log.info("Before test save = {}" , userDto);
-        userService.save(userDto);
+        User user = new User("123", "123",true);
+        log.info("Before test save = {}" , user);
+        userService.save(user);
 
 
     }
