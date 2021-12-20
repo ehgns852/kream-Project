@@ -35,7 +35,6 @@ public class InitTestData {
 //        }
         roleRepository.save(ADMIN);
         roleRepository.save(USER);
-
         User user1 = new User("123", "123", true);
         User user2 = new User("321", "321", true);
         userService.save(user1);

@@ -25,7 +25,6 @@ import static com.nklcb.kream.entity.security.Role.*;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
 
