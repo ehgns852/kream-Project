@@ -27,8 +27,8 @@ public class Role {
 
     private String name;
 
-    public static final Role ADMIN = new Role("ADMIN");
-    public static final Role USER = new Role("USER");
+    public static final Role ADMIN = new Role("ROLE_ADMIN");
+    public static final Role USER = new Role("ROLE_USER");
 
     public Role(String name) {
         this.name = name;

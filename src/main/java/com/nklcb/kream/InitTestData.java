@@ -29,16 +29,20 @@ public class InitTestData {
 
     @PostConstruct
     public void dataInit() {
-        for (int i = 0; i < 100; i++) {
-            Board board = new Board("title" + i, "content" +i);
-            boardRepository.save(board);
-        }
+//        for (int i = 0; i < 100; i++) {
+//            Board board = new Board("title" + i, "content" +i);
+//            boardRepository.save(board);
+//        }
         roleRepository.save(ADMIN);
         roleRepository.save(USER);
-        User user = new User("123", "123",true);
-        log.info("Before test save = {}" , user);
-        userService.save(user);
+
+        User user1 = new User("123", "123", true);
+        User user2 = new User("321", "321", true);
+        userService.save(user1);
+        userService.save(user2);
+
+    }
 
 
     }
-}
+
