@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록됨
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -22,9 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http
                 .authorizeRequests()
                 .antMatchers("/", "/account/register", "/css/**").permitAll()
+//                .antMatchers("/user/**").authenticated()
+//                .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
