@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +17,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록됨
+//@EnableGlobalMethodSecurity(securedEnabled = true)//secured 어노테이션 활성화 @Secured("ROLE_ADMIN")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -34,6 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/account/login")
                 .loginProcessingUrl("/account/login") //login 주소가 호출이 되면 시큐리티가 낚아채 준다.
                 .defaultSuccessUrl("/")
+                .and()
+                .oauth2Login()
+                .loginPage("/account/login") //구글 로그인이 완료된 뒤의 후처리가 필요함
                 .permitAll()
                 .and()
                 .logout()
