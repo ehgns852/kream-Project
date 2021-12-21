@@ -1,6 +1,7 @@
 package com.nklcb.kream.entity.security;
 
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -13,11 +14,12 @@ import java.util.Set;
 
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
 
 @Entity
 @Table(name = "user_role")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @Slf4j
 @ToString(of = {"id","user","role"})
 public class UserRole {
@@ -51,6 +53,7 @@ public class UserRole {
      */
     public static UserRole addUserRole(User user, Role role) {
         UserRole userRole = new UserRole(user,role);
+
         log.info("userRole = {}", userRole);
 
         return userRole;

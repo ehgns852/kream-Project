@@ -29,8 +29,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
+    /**
+     * User 회원가입
+     */
     @Transactional
-    public void save(User user) {
+    public void userJoin(User user) {
         log.info("USER SERVICE IN");
         //클라이언트에서 회원 가입시 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -49,5 +52,23 @@ public class UserService {
     }
 
 
+    /**
+     * admin 회원가입
+     * 추후에 분리 예정
+     */
+    @Transactional
+    public void adminJoin(User admin) {
 
+        String encodedPassword = passwordEncoder.encode(admin.getPassword());
+
+        UserRole userRole = UserRole.addUserRole(admin, ADMIN);
+
+        admin.signUp(admin.getUsername(), encodedPassword, true, userRole);
+
+        userRepository.save(admin);
+
+
+
+
+    }
 }

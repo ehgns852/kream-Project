@@ -40,7 +40,7 @@ public class AccountController {
 
         log.info("in account Controller");
 
-        userService.save(user);
+        userService.userJoin(user);
 
         log.info("success userService.save");
         return "redirect:/";

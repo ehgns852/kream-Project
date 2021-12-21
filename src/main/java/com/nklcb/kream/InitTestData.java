@@ -37,8 +37,8 @@ public class InitTestData {
         roleRepository.save(USER);
         User user1 = new User("123", "123", true);
         User user2 = new User("321", "321", true);
-        userService.save(user1);
-        userService.save(user2);
+        userService.adminJoin(user1);
+        userService.userJoin(user2);
 
     }
 

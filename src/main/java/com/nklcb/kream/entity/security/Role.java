@@ -27,6 +27,9 @@ public class Role {
 
     private String name;
 
+    @OneToMany(mappedBy = "role")
+    private List<UserRole> userRoles = new ArrayList<>();
+
     public static final Role ADMIN = new Role("ROLE_ADMIN");
     public static final Role USER = new Role("ROLE_USER");
 
@@ -34,8 +37,7 @@ public class Role {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "role")
-    private List<UserRole> userRoles = new ArrayList<>();
+
 
 
 }
