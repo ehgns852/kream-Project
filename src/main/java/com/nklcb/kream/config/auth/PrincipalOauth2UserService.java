@@ -11,10 +11,17 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-    //구글로 부터 받은 userRequest 데이터데 대한 후처리 되는 함수
+    //구글로 부터 받은 userRequest 데이터에 대한 후처리 되는 함수
    @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("userRequest = {}", userRequest);
+       log.info("getClientRegistration = {}", userRequest.getClientRegistration());// 어떤 OAuth로 로그인 하였는지 확인가능
+       log.info("getAccessToken = {}", userRequest.getAccessToken().getTokenValue());
+       /**
+        * 구글 로그인 버튼 클릭 -> 구글로그인창 -> 로그인 완료 -> code를 리턴(OAuth-client 라이브러리) ->AccessToken 요청
+        * userRequest 정보 -> 회원프로필 받아야함(loadUser 함수) -> 구글로부터 회원 프로필을 받아준다.
+        */
+       log.info("getAttributes = {}", super.loadUser(userRequest).getAttributes());
+
         return super.loadUser(userRequest);
     }
 }

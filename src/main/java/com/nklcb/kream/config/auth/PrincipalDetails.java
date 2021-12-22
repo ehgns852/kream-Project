@@ -5,11 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -20,10 +22,13 @@ import java.util.stream.Collectors;
  * User 오브젝트타입 => UserDetails 타입 객체
  *
  * Security Session => Autentication => UserDetails(PrincipalDetails)
+ *
+ * *****************************************************************
+ * PrincipalDetails 에서 일반인증과, OAuth2인증을 처리하기 위해 UserDetails 타입과, OAuth2User를 구현한다.
  */
 @Transactional(readOnly = true)
 @Slf4j
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; //콤포지션
     private List<String> rolesName;
@@ -34,6 +39,7 @@ public class PrincipalDetails implements UserDetails {
         log.info("UserDetails constructor = {}" ,user);
 
     }
+
 
 
     /**
@@ -77,5 +83,19 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    /**
+     * OAuth2User
+     */
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
     }
 }
