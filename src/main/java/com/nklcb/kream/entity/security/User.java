@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import static javax.persistence.GenerationType.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(of = {"id", "username", "password", "enabled"})
+@ToString(of = {"id", "username", "password", "enabled","email","provider","providerId","createDate"})
 @Slf4j
 public class User {
 
@@ -34,8 +35,17 @@ public class User {
 
     private boolean enabled;
 
+    private String email;
+
+    private String provider;
+    private String providerId;
+    private LocalDateTime createDate;
+
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();
+
+
+
 
     public User(String username, String password, boolean enabled) {
         this.username = username;
@@ -43,9 +53,8 @@ public class User {
         this.enabled = enabled;
     }
 
-    public User(String password) {
-        this.password = password;
-    }
+
+
 
     public void signUp(String username, String password, boolean enabled, UserRole userRole) {
         this.username = username;
@@ -58,4 +67,16 @@ public class User {
 
 
     }
+
+    @Builder
+    public User(String username, String password, String email, String provider, String providerId, UserRole userRole) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.userRoles.add(userRole);
+        userRole.setUser(this);
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.nklcb.kream.config.auth;
 
 import com.nklcb.kream.entity.security.User;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,11 +30,17 @@ import java.util.stream.Collectors;
  */
 @Transactional(readOnly = true)
 @Slf4j
+@NoArgsConstructor
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; //콤포지션
     private List<String> rolesName;
+    private Map<String, Object> attributes;
 
+
+    /**
+     * 일반 로그인
+     */
     public PrincipalDetails(User user, List<String> rolesName) {
         this.user = user;
         this.rolesName = rolesName;
@@ -40,7 +48,15 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     }
 
+    /**
+     * OAuth2 로그인
+     */
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
 
+        log.info("Oauth2 UserDetails Constructor");
+    }
 
     /**
      * 해당 User의 권한을 리턴하는 곳
@@ -48,8 +64,8 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return rolesName.stream().
-                map(SimpleGrantedAuthority::new)
+        return rolesName.stream()
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
     }
@@ -94,8 +110,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return null;
     }
 
+
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return attributes;
     }
 }

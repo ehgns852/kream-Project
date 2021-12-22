@@ -48,6 +48,12 @@ public class UserRole {
         this.role = role;
     }
 
+    public UserRole(Role role) {
+        this.role = role;
+    }
+
+
+
     /**
      *정적 팩토리 메서드
      */
@@ -58,4 +64,10 @@ public class UserRole {
 
         return userRole;
     }
+
+
+    public static UserRole addRole(Role role) {
+        return new UserRole(role);
+    }
+
 }

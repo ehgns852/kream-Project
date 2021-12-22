@@ -50,8 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .oauth2Login()
                 .loginPage("/account/login")
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService);
+                .userInfoEndpoint();
+//                .userService(principalOauth2UserService);
 
 
     }
@@ -71,8 +71,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        + "where u.username = ?");
 //    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

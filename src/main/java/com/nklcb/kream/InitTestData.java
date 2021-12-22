@@ -24,9 +24,9 @@ public class InitTestData {
     private final UserService userService;
     private final RoleRepository roleRepository;
 
-
-
-
+//
+//
+//
     @PostConstruct
     public void dataInit() {
 //        for (int i = 0; i < 100; i++) {
