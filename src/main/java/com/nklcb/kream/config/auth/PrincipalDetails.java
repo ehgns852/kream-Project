@@ -51,11 +51,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     /**
      * OAuth2 로그인
      */
-    public PrincipalDetails(User user, Map<String, Object> attributes) {
-        this.user = user;
-        this.attributes = attributes;
 
-        log.info("Oauth2 UserDetails Constructor");
+    public PrincipalDetails(User user, List<String> rolesName, Map<String, Object> attributes) {
+        this.user = user;
+        this.rolesName = rolesName;
+        this.attributes = attributes;
     }
 
     /**

@@ -21,7 +21,7 @@ import static lombok.AccessLevel.*;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Slf4j
-@ToString(of = {"id","user","role"})
+@ToString(of = {"id"})
 public class UserRole {
 
 

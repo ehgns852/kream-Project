@@ -12,9 +12,12 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.nklcb.kream.entity.security.Role.*;
 
@@ -29,6 +32,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 
     //구글로 부터 받은 userRequest 데이터에 대한 후처리 되는 함수
+    @Transactional
    @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
        log.info("getClientRegistration = {}", userRequest.getClientRegistration());// 어떤 OAuth로 로그인 하였는지 확인가능
@@ -65,7 +69,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
            log.info("Oauth2 Join = {}", userEntity);
        } else {
-           return new PrincipalDetails(userEntity, oAuth2User.getAttributes());
+           List<String> collect = userEntity.getUserRoles()
+                   .stream()
+                   .map(u -> u.getRole().getName())
+                   .collect(Collectors.toList());
+           log.info("collect = {}", collect);
+           return new PrincipalDetails(userEntity, collect, oAuth2User.getAttributes());
        }
 
 
