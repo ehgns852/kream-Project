@@ -1,5 +1,8 @@
 package com.nklcb.kream.config.auth;
 
+import com.nklcb.kream.config.auth.provider.FacebookUserInfo;
+import com.nklcb.kream.config.auth.provider.GoogleUserInfo;
+import com.nklcb.kream.config.auth.provider.Oauth2UserInfo;
 import com.nklcb.kream.entity.security.Role;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.entity.security.UserRole;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,11 +48,24 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
        OAuth2User oAuth2User = super.loadUser(userRequest);
        log.info("getAttributes = {}", oAuth2User.getAttributes());
 
-       String provider = userRequest.getClientRegistration().getClientId(); //google
-       String providerId = oAuth2User.getAttribute("sub"); //google primary Key
+        Oauth2UserInfo oauth2UserInfo = null;
+        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+            log.info("구글 로그인 요청");
+            oauth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
+            log.info("페이스북 로그인 요청");
+            oauth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+        } else {
+            log.info("페이스북과 구글만 지원합니다.");
+        }
+
+       String provider = oauth2UserInfo.getProvider(); //google, facebook
+       String providerId = oauth2UserInfo.getProviderId(); //google,facebook primary Key
        String username = provider + "_" + providerId;
-       String password = passwordEncoder.encode("겟인데어");
-       String email = oAuth2User.getAttribute("email");
+       String passwordEncode = UUID.randomUUID().toString();
+       String password = passwordEncoder.encode(passwordEncode);
+       String email = oauth2UserInfo.getEmail();
        UserRole userRole = UserRole.addRole(USER);
 
 
