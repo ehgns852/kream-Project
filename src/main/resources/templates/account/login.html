@@ -11,6 +11,7 @@
   <link th:href="@{/css/signin.css}" rel="stylesheet">
   <link th:href="@{/css/facebook.css}" rel="stylesheet">
   <link th:href="@{/css/google.css}" rel="stylesheet">
+  <link th:href="@{/css/naver.css}" rel="stylesheet">
 
 
   <title>login</title>
@@ -55,6 +56,9 @@
     </a>
 
 
+    <a class="naverbtn" type="submit" th:href="@{/oauth2/authorization/naver}">Login with Naver
+        <img src='/Users/gimdohun/Desktop/myProject/naver.png'>
+    </a>
 
     <!-- 일반 로그인 -->
     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
