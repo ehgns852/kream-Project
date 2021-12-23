@@ -51,7 +51,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
        String email = oAuth2User.getAttribute("email");
        UserRole userRole = UserRole.addRole(USER);
 
+
        User userEntity = userRepository.findByUsername(username);
+
        log.info("username = {}", userEntity);
        if (userEntity == null) {
             userEntity = User.builder()
