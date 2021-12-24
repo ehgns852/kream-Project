@@ -2,6 +2,7 @@ package com.nklcb.kream.config.auth;
 
 import com.nklcb.kream.config.auth.provider.FacebookUserInfo;
 import com.nklcb.kream.config.auth.provider.GoogleUserInfo;
+import com.nklcb.kream.config.auth.provider.NaverUserInfo;
 import com.nklcb.kream.config.auth.provider.Oauth2UserInfo;
 import com.nklcb.kream.entity.security.Role;
 import com.nklcb.kream.entity.security.User;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -56,8 +58,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
             log.info("페이스북 로그인 요청");
             oauth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            oauth2UserInfo = new NaverUserInfo((Map<String, Object>) oAuth2User.getAttributes().get("response"));
+            log.info("네이버 로그인 요청");
+
         } else {
-            log.info("페이스북과 구글만 지원합니다.");
+            log.info("허용되지 않은 접근 입니다.");
         }
 
        String provider = oauth2UserInfo.getProvider(); //google, facebook
