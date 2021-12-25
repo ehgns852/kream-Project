@@ -29,11 +29,13 @@
     <div class="alert alert-primary" role="alert" th:if="${param.logout}">
       You have been logged out.
     </div>
-    <label for="username" class="sr-only">Username</label>
-  <input type="text" class="form-control" id="username" name="username" th:field="${user.username}"
-         placeholder="Username">
+  <label for="username" class="sr-only">Username</label>
+  <input type="text" class="form-control" id="username" name="username" th:field="${user.username}" placeholder="Username">
   <label for="password" class="sr-only">Password</label>
   <input type="password" class="form-control" id="password" name="password" th:field="${user.password}" placeholder="Password">
+  <label for="email" class="sr-only">email</label>
+  <input type="email" class="form-control" id="email" name="email" th:field="${user.email}" placeholder="email">
+    <p></p>
 
 <!--  <div class="checkbox mb-3">-->
 <!--    <label>-->
@@ -41,7 +43,7 @@
 <!--    </label>-->
 <!--  </div>-->
   <button class="w-100 btn btn-lg btn-primary" type="submit">회원 가입</button>
-  <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+  <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
 </form>
 </main>
 
