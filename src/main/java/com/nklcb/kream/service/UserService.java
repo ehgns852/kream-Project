@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -41,8 +42,9 @@ public class UserService {
 
         UserRole userRole = UserRole.addUserRole(user, USER);
         log.info("save userRole = {}", userRole);
+        LocalDateTime createDate = LocalDateTime.now();
 
-        user.signUp(user.getUsername(), encodedPassword, true, userRole);
+        user.signUp(user.getUsername(), encodedPassword, userRole, true, createDate, user.getEmail());
         log.info("signup");
 
 
@@ -63,7 +65,9 @@ public class UserService {
 
         UserRole userRole = UserRole.addUserRole(admin, ADMIN);
 
-        admin.signUp(admin.getUsername(), encodedPassword, true, userRole);
+        LocalDateTime createDate = LocalDateTime.now();
+
+        admin.signUp(admin.getUsername(), encodedPassword, userRole,true, createDate, admin.getEmail());
 
         userRepository.save(admin);
 

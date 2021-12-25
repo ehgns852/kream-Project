@@ -46,30 +46,32 @@ public class User {
 
 
 
-
-    public User(String username, String password, boolean enabled) {
+    public void signUp(String username, String password, UserRole userRole, boolean enabled, LocalDateTime localDateTime, String email) {
         this.username = username;
         this.password = password;
-        this.enabled = enabled;
-    }
-
-
-
-
-    public void signUp(String username, String password, boolean enabled, UserRole userRole) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
         this.userRoles.add(userRole);
         userRole.setUser(this);
+        this.enabled = enabled;
+        this.createDate = localDateTime;
+        this.email = email;
+
 
         log.info("User.signup ={}", this);
 
 
     }
 
+    public User(String username, String password, boolean enabled, String email, LocalDateTime createDate) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.email = email;
+        this.createDate = createDate;
+    }
+
     @Builder
-    public User(String username, String password, String email, String provider, String providerId, UserRole userRole) {
+    public User(String username, String password, String email, String provider,
+                String providerId, UserRole userRole, LocalDateTime createDate, boolean enabled) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -77,6 +79,8 @@ public class User {
         this.providerId = providerId;
         this.userRoles.add(userRole);
         userRole.setUser(this);
+        this.createDate = createDate;
+        this.enabled = enabled;
     }
 
 }

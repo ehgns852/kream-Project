@@ -4,7 +4,6 @@ import com.nklcb.kream.config.auth.provider.FacebookUserInfo;
 import com.nklcb.kream.config.auth.provider.GoogleUserInfo;
 import com.nklcb.kream.config.auth.provider.NaverUserInfo;
 import com.nklcb.kream.config.auth.provider.Oauth2UserInfo;
-import com.nklcb.kream.entity.security.Role;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.entity.security.UserRole;
 import com.nklcb.kream.repository.UserRepository;
@@ -18,12 +17,11 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.nklcb.kream.entity.security.Role.*;
 
@@ -74,6 +72,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
        String password = passwordEncoder.encode(passwordEncode);
        String email = oauth2UserInfo.getEmail();
        UserRole userRole = UserRole.addRole(USER);
+       LocalDateTime createDate = LocalDateTime.now();
 
 
        User userEntity = userRepository.findByUsername(username);
@@ -87,6 +86,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                    .provider(provider)
                    .providerId(providerId)
                    .userRole(userRole)
+                   .createDate(createDate)
+                   .enabled(true)
                    .build();
 
             log.info("PrincipalOauth2 userEntity = {]", userEntity);
