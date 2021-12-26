@@ -1,20 +1,11 @@
 package com.nklcb.kream.config;
 
-import com.nklcb.kream.config.auth.PrincipalOauth2UserService;
+import com.nklcb.kream.config.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.filter.CorsFilter;
 
 import javax.sql.DataSource;
 
@@ -24,8 +15,6 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 //@EnableGlobalMethodSecurity(securedEnabled = true)//secured 어노테이션 활성화 @Secured("ROLE_ADMIN")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final CorsFilter corsFilter;
 
 
     @Override
@@ -43,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .access("hasRole('ROLE_USER) or hasRole(ROLE_ADMIN)");
 
         http
-                .addFilter(corsFilter) //CrossOrigin(인증x), 필터에 등록 인증(o)
+                .addFilter(new JwtAuthenticationFilter(authenticationManager())) //AuthenticationManager
                 .authorizeRequests()
                 .antMatchers("/board/list")
                 .hasRole("ADMIN")

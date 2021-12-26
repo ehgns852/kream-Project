@@ -9,6 +9,7 @@ import com.nklcb.kream.entity.security.UserRole;
 import com.nklcb.kream.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -75,7 +76,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
        LocalDateTime createDate = LocalDateTime.now();
 
 
-       User userEntity = userRepository.findByUsername(username);
+        User userEntity = userRepository.findByUsername(username);
 
        log.info("username = {}", userEntity);
        if (userEntity == null) {
