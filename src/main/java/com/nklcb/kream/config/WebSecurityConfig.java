@@ -11,8 +11,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.sql.DataSource;
 
@@ -23,12 +25,29 @@ import javax.sql.DataSource;
 //@EnableGlobalMethodSecurity(securedEnabled = true)//secured 어노테이션 활성화 @Secured("ROLE_ADMIN")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final PrincipalOauth2UserService principalOauth2UserService;
+    private final CorsFilter corsFilter;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        /**
+         * jwt 방식
+         */
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .formLogin().disable()
+//                .httpBasic().disable()
+//                .authorizeRequests()
+//                .antMatchers("api/v1/user/**")
+//                .access("hasRole('ROLE_USER) or hasRole(ROLE_ADMIN)");
+
         http
+                .addFilter(corsFilter) //CrossOrigin(인증x), 필터에 등록 인증(o)
+                .authorizeRequests()
+                .antMatchers("/board/list")
+                .hasRole("ADMIN")
+                .and()
                 .authorizeRequests()
                 .antMatchers("/", "/account/register", "/css/**").permitAll()
 //                .antMatchers("/user/**").authenticated()
