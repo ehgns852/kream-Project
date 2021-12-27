@@ -3,20 +3,27 @@ package com.nklcb.kream.config.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nklcb.kream.config.auth.PrincipalDetails;
 import com.nklcb.kream.entity.security.User;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 
 
 /**
@@ -91,6 +98,50 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+
+        /**
+         * Header 설정
+         */
+        HashMap<String, Object> headers = new HashMap<>();
+        headers.put("typ", "JWT");
+        headers.put("alg", "HS256");
+
+        /**
+         * payload 설정
+         */
+        HashMap<String, Object> payloads = new HashMap<>();
+        payloads.put("id", principalDetails.getUser().getId());
+        payloads.put("username", principalDetails.getUser().getUsername());
+
+
+        //토큰 유효 시간
+        Long expiredTime = 30 * 60 * 1000L; //30분
+        Date expired = new Date();
+        expired.setTime(expired.getTime() + expiredTime);
+
+
+        //시크릿 키
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+
+        /**
+         * RSA 방식이 아닌 hash 암호방식 토큰 생성
+         */
+        String jwtToken = Jwts.builder()
+                .setHeader(headers) //headers 설정
+                .setClaims(payloads) //payloads 설정
+                .setSubject("user") //토큰 용도
+                .setExpiration(expired) //토큰 만료 시간 설정
+                .signWith(key)
+                .compact();
+
+        response.addHeader("Authorization","Bearer " + jwtToken);
+
+        log.info("addHeader = {}", response.getHeaderNames());
+        log.info("addHeader = {}", response.getHeader("Authorization"));
+
         log.info("successfulAuthentication 함수 실행");
         super.successfulAuthentication(request, response, chain, authResult);
     }
