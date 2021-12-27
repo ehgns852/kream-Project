@@ -45,6 +45,7 @@ public class PrincipalDetailsService implements UserDetailsService {
                 .map(u -> u.getRole().getName())
                 .collect(Collectors.toList());
 
+
         log.info("userEntity = {}", userEntity);
 
         if (userEntity != null) {

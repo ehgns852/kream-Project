@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //                .and()
 //                .formLogin().disable()
+
 //                .httpBasic().disable()
 //                .authorizeRequests()
 //                .antMatchers("api/v1/user/**")
@@ -43,12 +44,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/account/login")
-                .loginProcessingUrl("/account/login") //login 주소가 호출이 되면 시큐리티가 낚아채 준다.
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
+//                .formLogin()
+//                .loginPage("/account/login")
+//                .loginProcessingUrl("/account/login") //login 주소가 호출이 되면 시큐리티가 낚아채 준다.
+//                .defaultSuccessUrl("/")
+//                .permitAll()
+//                .and()
                 .logout()
                 .permitAll();
                 /**

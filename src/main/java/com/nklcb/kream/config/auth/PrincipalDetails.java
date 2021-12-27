@@ -2,6 +2,7 @@ package com.nklcb.kream.config.auth;
 
 import com.nklcb.kream.entity.security.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Slf4j
 @NoArgsConstructor
+@Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; //콤포지션
