@@ -26,6 +26,7 @@ public class AccountController {
 
     @GetMapping("/login")
     public String login() {
+        log.info("login AccountController");
         return "account/login";
     }
 

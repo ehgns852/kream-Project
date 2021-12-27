@@ -82,8 +82,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
              * 굳이 jwt 토큰을 사용하면서 세션을 만들 이유가 없음 근데 단지 권한 처리때문에 session에 넣어주는 것이다.
              */
 
-
             return authentication;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,6 +98,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+
+
 
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
@@ -143,6 +145,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         log.info("addHeader = {}", response.getHeader("Authorization"));
 
         log.info("successfulAuthentication 함수 실행");
-        super.successfulAuthentication(request, response, chain, authResult);
     }
 }

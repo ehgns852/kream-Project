@@ -1,6 +1,7 @@
 package com.nklcb.kream.config;
 
 import com.nklcb.kream.config.jwt.JwtAuthenticationFilter;
+import com.nklcb.kream.config.jwt.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .addFilter(new JwtAuthenticationFilter(authenticationManager())) //AuthenticationManager
+                .addFilter(new JwtAuthorizationFilter(authenticationManager()))
                 .authorizeRequests()
                 .antMatchers("/board/list")
                 .hasRole("ADMIN")
