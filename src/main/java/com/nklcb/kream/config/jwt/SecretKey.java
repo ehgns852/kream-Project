@@ -1,7 +1,6 @@
 package com.nklcb.kream.config.jwt;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,16 +11,21 @@ import org.springframework.stereotype.Component;
 public class SecretKey {
 
 
-
-    private String secretKey;
-
+    public static String secretKey;
 
 
-    public SecretKey(@Value("${spring.jwt.secret}") String secretKey) {
+    @Value("${spring.jwt.secret}")
+    public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
-
     }
 
+    public SecretKey(@Value("${spring.jwt.secret}")String value) {
+        this.secretKey = value;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
 
 
 

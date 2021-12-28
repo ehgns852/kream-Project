@@ -2,7 +2,6 @@ package com.nklcb.kream.config;
 
 import com.nklcb.kream.config.jwt.JwtAuthenticationFilter;
 import com.nklcb.kream.config.jwt.JwtAuthorizationFilter;
-import com.nklcb.kream.config.jwt.SecretKey;
 import com.nklcb.kream.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +22,6 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepository;
-    private final SecretKey secretKey;
-
 
 
     @Override
@@ -43,8 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .access("hasRole('ROLE_USER) or hasRole(ROLE_ADMIN)");
 
         http
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(),secretKey)) //AuthenticationManager
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository, secretKey))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager())) //AuthenticationManager
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository))
                 .authorizeRequests()
                 .antMatchers("/board/list")
                 .hasRole("ADMIN")
@@ -95,6 +92,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
 
 }
