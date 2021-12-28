@@ -2,6 +2,7 @@ package com.nklcb.kream.config.jwt;
 
 import com.nklcb.kream.config.auth.PrincipalDetails;
 import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.security.UserRole;
 import com.nklcb.kream.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,7 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,20 +34,22 @@ import java.util.stream.Collectors;
  * 만약에 권한이 인증이 필요한 주소가 아니라면 이 필터를 타지않음
  */
 @Slf4j
+@Transactional(readOnly = true)
 @Component
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 
-    @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
     private SecretKey secret;
 
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
+
+    @Autowired
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository, SecretKey secretKey) {
         super(authenticationManager);
         this.userRepository = userRepository;
+        this.secret = secretKey;
 
         log.info("JwtAuthorizationFilter constructor");
 
@@ -93,20 +98,24 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 .getBody();
         log.info("claims = {}", claims);
 
-        User user = claims.get("username", User.class);
+        String username =(String) claims.get("username");
 
-        log.info("Jwt Username = {}", user);
+
+        log.info("Jwt Username = {}", username);
         // 서명이 정상적으로 됨
 
-        if (user != null) {
-            User userEntity = userRepository.findByUsername(user.getUsername());
+        if (username != null) {
 
-            log.info("Jwt UserEntity = {}", userEntity);
+            User userEntity = userRepository.findByUsername(username);
+
 
             List<String> collect = userEntity.getUserRoles()
                     .stream()
                     .map(u -> u.getRole().getName())
                     .collect(Collectors.toList());
+
+
+            log.info("collet = {}", userEntity);
 
             PrincipalDetails principalDetails = new PrincipalDetails(userEntity,collect);
 
@@ -120,8 +129,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request,response);
 
         }
-
-
 
 
 
