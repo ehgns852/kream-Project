@@ -45,7 +45,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
      */
     public PrincipalDetails(User user, List<String> rolesName) {
         this.user = user;
-        this.user.isEnabled();
         this.rolesName = rolesName;
         log.info("UserDetails constructor = {}" ,user);
 

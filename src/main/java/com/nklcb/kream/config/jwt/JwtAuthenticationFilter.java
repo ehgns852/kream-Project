@@ -5,23 +5,24 @@ import com.nklcb.kream.config.auth.PrincipalDetails;
 import com.nklcb.kream.entity.security.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.crypto.SecretKey;
+
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -36,6 +37,11 @@ import java.util.HashMap;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    private SecretKey key;
+
+
 
 
     /**
@@ -124,8 +130,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         expired.setTime(expired.getTime() + expiredTime);
 
 
-        //시크릿 키
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+        //시크릿 키 생성
+        String algorithm = SignatureAlgorithm.HS256.getJcaName();
+        log.info("secretKey = {}", key);
+        String secretKey = key.getSecretKey();
+
+        byte[] byteSecretKey = DatatypeConverter.parseBase64Binary(secretKey);
+
+        Key secretKeySpec = new SecretKeySpec(byteSecretKey, algorithm);
 
 
         /**
@@ -136,7 +149,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setClaims(payloads) //payloads 설정
                 .setSubject("user") //토큰 용도
                 .setExpiration(expired) //토큰 만료 시간 설정
-                .signWith(key)
+                .signWith(secretKeySpec,SignatureAlgorithm.HS256)
                 .compact();
 
         response.addHeader("Authorization","Bearer " + jwtToken);
