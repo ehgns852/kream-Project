@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Transactional(readOnly = true)
-@Component
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 
