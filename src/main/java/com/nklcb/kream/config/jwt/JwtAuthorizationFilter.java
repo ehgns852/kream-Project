@@ -60,7 +60,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        super.doFilterInternal(request, response, chain);
         log.info("인증이나 권한이 필요한 주소 요청이 됨");
 
         String jwtHeader = request.getHeader("Authorization");
@@ -119,12 +118,18 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
             PrincipalDetails principalDetails = new PrincipalDetails(userEntity,collect);
 
+            log.info("principalDetails = {}", principalDetails.getUsername());
+
             //Jwt 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어 준다.
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
 
+            log.info("authenticaiton = {}", authentication);
+
             //강제로 시큐리티의 세션에 접근하며 Authentication 객체를 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            log.info("in authentication = {}", authentication);
 
             chain.doFilter(request,response);
 
