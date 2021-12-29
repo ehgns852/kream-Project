@@ -33,21 +33,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * jwt 방식
          */
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .formLogin().disable()
-//
-                .httpBasic().disable();
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .formLogin().disable()
+
+//                .httpBasic().disable();
 //                .authorizeRequests()
 //                .antMatchers("api/v1/user/**")
 //                .access("hasRole('ROLE_USER) or hasRole(ROLE_ADMIN)");
 
         http
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(),secretKey)) //AuthenticationManager
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository,secretKey))
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager(),secretKey)) //AuthenticationManager
+//                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository,secretKey))
                 .authorizeRequests()
-                .antMatchers("/board/list")
-                .hasRole("ADMIN")
+                .antMatchers("/board/list").hasRole("ADMIN")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/", "/account/register", "/css/**").permitAll()
@@ -55,12 +54,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .anyRequest().authenticated()
                 .and()
-//                .formLogin()
-//                .loginPage("/account/login")
-//                .loginProcessingUrl("/account/login") //login 주소가 호출이 되면 시큐리티가 낚아채 준다.
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//                .and()
+                .formLogin()
+                .loginPage("/account/login")
+                .loginProcessingUrl("/account/login") //login 주소가 호출이 되면 시큐리티가 낚아채 준다.
+                .defaultSuccessUrl("/")
+                .permitAll()
+                .and()
                 .logout()
                 .permitAll();
                 /**
