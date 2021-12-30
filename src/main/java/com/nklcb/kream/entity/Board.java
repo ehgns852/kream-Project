@@ -1,13 +1,18 @@
 package com.nklcb.kream.entity;
 
+import com.nklcb.kream.entity.security.User;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board {
 
     @Id
@@ -19,11 +24,23 @@ public class Board {
     private String title;
     private String content;
 
-    public Board() {
-    }
+    private LocalDateTime createDate;
 
-    public Board(String title, String content) {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
+    protected Board(String title, String content, LocalDateTime localDateTime) {
         this.title = title;
         this.content = content;
+        this.createDate = localDateTime;
+    }
+
+    public static Board createBoard(String title, String content, LocalDateTime localDateTime) {
+        Board board = new Board(title, content, localDateTime);
+
+        return board;
     }
 }

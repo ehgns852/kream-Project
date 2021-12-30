@@ -1,6 +1,7 @@
 package com.nklcb.kream.entity.security;
 
 
+import com.nklcb.kream.entity.Board;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 
@@ -42,8 +44,12 @@ public class User {
     private String providerId;
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = ALL)
     private List<UserRole> userRoles = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "user", cascade = ALL)
+    private List<Board> boards = new ArrayList<>();
 
 
 

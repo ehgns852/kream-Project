@@ -39,7 +39,6 @@ public class PrincipalDetailsService implements UserDetailsService {
         log.info("UserDetailsService In");
         User userEntity = userRepository.findByUsername(username);
 
-
         List<String> collect = userEntity.getUserRoles()
                 .stream()
                 .map(u -> u.getRole().getName())

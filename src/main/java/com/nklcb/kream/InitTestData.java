@@ -1,6 +1,7 @@
 package com.nklcb.kream;
 
 
+import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.entity.security.UserRole;
 import com.nklcb.kream.repository.BoardRepository;
@@ -25,15 +26,17 @@ public class InitTestData {
     private final UserService userService;
     private final RoleRepository roleRepository;
 
-//
-//
-//
+
+
+
+
     @PostConstruct
     public void dataInit() {
-//        for (int i = 0; i < 100; i++) {
-//            Board board = new Board("title" + i, "content" +i);
-//            boardRepository.save(board);
-//        }
+        for (int i = 0; i < 20; i++) {
+            Board board = Board.createBoard("title" + i, "content" + i, LocalDateTime.now());
+
+            boardRepository.save(board);
+        }
         LocalDateTime createDate = LocalDateTime.now();
 
 

@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +59,8 @@ public class BoardController {
 
             return "board/form";
         }
-        Board board = new Board(boardForm.getTitle(), boardForm.getContent());
+
+        Board board = Board.createBoard(boardForm.getTitle(), boardForm.getContent(), LocalDateTime.now());
 
         boardRepository.save(board);
 
