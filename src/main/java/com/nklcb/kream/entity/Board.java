@@ -43,4 +43,18 @@ public class Board {
 
         return board;
     }
+
+
+    /**
+     * 생성 메서드
+     */
+    public void boardUser(User user) {
+        this.user = user;
+        getUser().getBoards().add(this);
+    }
+
+
+    public void addUser(User findUsername) {
+        boardUser(findUsername);
+    }
 }

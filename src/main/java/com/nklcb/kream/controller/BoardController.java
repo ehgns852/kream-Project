@@ -1,14 +1,17 @@
 package com.nklcb.kream.controller;
 
 import com.nklcb.kream.entity.Board;
+import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.form.BoardForm;
 import com.nklcb.kream.repository.BoardRepository;
+import com.nklcb.kream.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,15 +30,20 @@ public class BoardController {
 
     private final BoardRepository boardRepository;
 
+    private final BoardService boardService;
+
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable,
-                       @RequestParam(required = false, defaultValue = "") String searchText) {
+                       @RequestParam(required = false, defaultValue = "") String searchText,
+                       Authentication authentication) {
         Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText,pageable);
+        String username = AuthenticationName(authentication);
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
+        model.addAttribute("username", username);
 
         return "board/list";
     }
@@ -53,18 +61,27 @@ public class BoardController {
     }
 
     @PostMapping("/form")
-    public String write(@Valid @ModelAttribute(name = "board") BoardForm boardForm, BindingResult bindingResult){
+    public String postForm(@Valid @ModelAttribute(name = "board") BoardForm boardForm, BindingResult bindingResult, Authentication authentication){
         if (bindingResult.hasErrors()) {
             log.info("write has errors!");
 
             return "board/form";
         }
 
+
+        String username = AuthenticationName(authentication);
+
         Board board = Board.createBoard(boardForm.getTitle(), boardForm.getContent(), LocalDateTime.now());
 
-        boardRepository.save(board);
+        boardService.save(username,board);
+
+//        boardRepository.save(board);
 
         return "redirect:/board/list";
 
+    }
+
+    private String AuthenticationName(Authentication authentication) {
+        return authentication.getName();
     }
 }
