@@ -37,14 +37,13 @@ public class InitTestData {
 
             boardRepository.save(board);
         }
-        LocalDateTime createDate = LocalDateTime.now();
 
 
         roleRepository.save(ADMIN);
         roleRepository.save(USER);
 
-        User user1 = new User("123", "123", true, "dobi", createDate);
-        User user2 = new User("321", "321", true, "ehgns", createDate);
+        User user1 = new User("123", "123", true, "dobi", LocalDateTime.now());
+        User user2 = new User("321", "321", true, "ehgns", LocalDateTime.now());
 
 
         userService.adminJoin(user1);

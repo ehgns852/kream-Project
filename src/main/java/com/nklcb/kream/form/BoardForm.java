@@ -1,13 +1,21 @@
 package com.nklcb.kream.form;
 
+import com.nklcb.kream.entity.Board;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Slf4j
 public class BoardForm {
 
 
@@ -23,12 +31,15 @@ public class BoardForm {
     private String content;
 
 
-    public BoardForm() {
+
+
+
+    public BoardForm(Board board) {
+        this.id = board.getId();
+        this.title = board.getTitle();
+        this.content = board.getContent();
+        log.info(" in BoardForm Constructor");
     }
 
-    public BoardForm(Long id, String title, String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-    }
+
 }

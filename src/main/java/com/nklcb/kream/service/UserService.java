@@ -4,6 +4,7 @@ import com.nklcb.kream.UserDto;
 import com.nklcb.kream.entity.security.Role;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.entity.security.UserRole;
+import com.nklcb.kream.form.UserForm;
 import com.nklcb.kream.repository.RoleRepository;
 import com.nklcb.kream.repository.UserRepository;
 import com.nklcb.kream.repository.UserRoleRepository;
@@ -75,4 +76,23 @@ public class UserService {
 
 
     }
+
+    @Transactional(readOnly = true)
+    public List<UserForm> findUserAndBoard() {
+
+        //User, Board fetch join
+        List<User> findUser = userRepository.findAllByWithBoard();
+
+        log.info("findAllByWithBoard");
+
+        //User 리스트를 DTO로 변환후 리스트로 반환
+        List<UserForm> collect = findUser.stream()
+                .map(user -> new UserForm(user))
+                .collect(Collectors.toList());
+
+        return collect;
+
+
+    }
+
 }

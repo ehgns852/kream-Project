@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@ToString
+@ToString(of = {"id, title, content, createDate"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board {
 
@@ -48,13 +48,10 @@ public class Board {
     /**
      * 생성 메서드
      */
-    public void boardUser(User user) {
+    public void addUser(User user) {
         this.user = user;
-        getUser().getBoards().add(this);
+        user.getBoards().add(this);
     }
 
 
-    public void addUser(User findUsername) {
-        boardUser(findUsername);
-    }
 }

@@ -81,6 +81,9 @@ public class BoardController {
 
     }
 
+    /**
+     *  User의 권한
+     */
     private String AuthenticationName(Authentication authentication) {
         return authentication.getName();
     }
