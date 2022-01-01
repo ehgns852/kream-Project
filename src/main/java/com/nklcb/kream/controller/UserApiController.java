@@ -1,5 +1,6 @@
 package com.nklcb.kream.controller;
 
+import com.nklcb.kream.UserDto;
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.form.UserForm;
@@ -8,12 +9,12 @@ import com.nklcb.kream.repository.UserRepository;
 import com.nklcb.kream.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +24,6 @@ public class UserApiController {
 
     private final UserRepository userRepository;
     private final UserService userService;
-    private final BoardRepository boardRepository;
 
 
     /**
@@ -40,10 +40,21 @@ public class UserApiController {
 
     }
 
-    @PostMapping("/users")
-    public User newUser(@RequestBody User user) {
-        return userRepository.save(user);
+    /**
+     * User ROLE_ADMIN 권한으로 회원가입
+     * username, password, email 입력하면 ->  + id, createDate 반환
+     */
+    @PostMapping("/user/save")
+    public UserDto newUser(@RequestBody UserDto user) {
+
+        User createUser = User.createApiUser(user.getUsername(), user.getPassword(), user.getEmail());
+        userService.adminJoin(createUser);
+        UserDto userDto = new UserDto(createUser);
+
+        return userDto;
     }
+
+
 
     @GetMapping("users/{id}")
     public User one(@PathVariable Long id) {
@@ -55,12 +66,15 @@ public class UserApiController {
      * Json으로 반환 시 [] -> {}
      */
     @AllArgsConstructor
+    @NoArgsConstructor
     @Getter
     static class Result<T>{
         private int count;
         private T data;
 
-
+        public Result(T data) {
+            this.data = data;
+        }
     }
 
 

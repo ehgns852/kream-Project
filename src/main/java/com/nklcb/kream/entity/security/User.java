@@ -52,6 +52,10 @@ public class User {
     private List<Board> boards = new ArrayList<>();
 
 
+    public static User createApiUser(String username, String password, String email) {
+         return new User(username,password,email);
+    }
+
 
     public void signUp(String username, String password, UserRole userRole, boolean enabled, LocalDateTime localDateTime, String email) {
         this.username = username;
@@ -76,6 +80,12 @@ public class User {
         this.createDate = createDate;
     }
 
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
     @Builder
     public User(String username, String password, String email, String provider,
                 String providerId, UserRole userRole, LocalDateTime createDate, boolean enabled) {
@@ -89,5 +99,6 @@ public class User {
         this.createDate = createDate;
         this.enabled = enabled;
     }
+
 
 }
