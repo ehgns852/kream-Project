@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,13 +60,24 @@ public class UserApiController {
     /**
      * 회원 단건 조회
      */
-    @GetMapping("users/{id}")
+    @GetMapping("user/{id}")
     public UserDto one(@PathVariable Long id) throws Exception {
         User user = userService.findById(id);
+
         UserDto userOne = UserDto.getUserOne(user);
 
         return userOne;
 
+    }
+
+    /**
+     * 회원 전체 조회
+     */
+    @GetMapping("users/all")
+    public Result findAll() {
+        List<UserDto> findUsers = userService.findAll();
+
+        return new Result(findUsers.size(), findUsers);
     }
 
 

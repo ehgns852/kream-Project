@@ -79,6 +79,9 @@ public class UserService {
 
     }
 
+    /**
+     * User, Board fetch join
+     */
     public List<UserForm> findUserAndBoard() {
 
         //User, Board fetch join
@@ -96,9 +99,28 @@ public class UserService {
 
     }
 
+    /**
+     * 단건 조회
+     */
     public User findById(Long id) throws Exception {
         return userRepository.findById(id).orElseThrow(Exception::new);
     }
+
+
+    /**
+     * 전체 조회
+     */
+    public List<UserDto> findAll() {
+        List<User> all = userRepository.findAll();
+
+        List<UserDto> collect = all.stream()
+                .map(user -> UserDto.getUserOne(user))
+                .collect(Collectors.toList());
+        return collect;
+
+    }
+
+
 
 
 
