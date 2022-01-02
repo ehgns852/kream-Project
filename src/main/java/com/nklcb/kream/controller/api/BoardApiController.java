@@ -1,4 +1,4 @@
-package com.nklcb.kream.controller;
+package com.nklcb.kream.controller.api;
 
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.form.BoardForm;

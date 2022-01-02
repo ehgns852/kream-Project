@@ -9,6 +9,8 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Getter
 @ToString(of = {"id, title, content, createDate"})
@@ -27,7 +29,7 @@ public class Board {
     private LocalDateTime createDate;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

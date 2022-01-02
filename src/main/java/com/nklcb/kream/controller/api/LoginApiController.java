@@ -1,4 +1,4 @@
-package com.nklcb.kream.controller;
+package com.nklcb.kream.controller.api;
 
 import com.nklcb.kream.config.auth.PrincipalDetails;
 import com.nklcb.kream.repository.UserRepository;

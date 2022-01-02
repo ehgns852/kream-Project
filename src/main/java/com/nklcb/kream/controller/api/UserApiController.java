@@ -1,4 +1,4 @@
-package com.nklcb.kream.controller;
+package com.nklcb.kream.controller.api;
 
 import com.nklcb.kream.UserDto;
 import com.nklcb.kream.entity.Board;
@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -45,7 +46,7 @@ public class UserApiController {
      * username, password, email 입력하면 ->  + id, createDate 반환
      */
     @PostMapping("/user/save")
-    public UserDto newUser(@RequestBody UserDto user) {
+    public UserDto newUser(@Valid @RequestBody UserDto user) {
 
         User createUser = User.createApiUser(user.getUsername(), user.getPassword(), user.getEmail());
         userService.adminJoin(createUser);
@@ -55,10 +56,16 @@ public class UserApiController {
     }
 
 
-
+    /**
+     * 회원 단건 조회
+     */
     @GetMapping("users/{id}")
-    public User one(@PathVariable Long id) {
-        return userRepository.findById(id).orElse(null);
+    public UserDto one(@PathVariable Long id) throws Exception {
+        User user = userService.findById(id);
+        UserDto userOne = UserDto.getUserOne(user);
+
+        return userOne;
+
     }
 
 

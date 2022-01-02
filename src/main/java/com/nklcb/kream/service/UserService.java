@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ import static com.nklcb.kream.entity.security.Role.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
@@ -77,7 +79,6 @@ public class UserService {
 
     }
 
-    @Transactional(readOnly = true)
     public List<UserForm> findUserAndBoard() {
 
         //User, Board fetch join
@@ -94,5 +95,11 @@ public class UserService {
 
 
     }
+
+    public User findById(Long id) throws Exception {
+        return userRepository.findById(id).orElseThrow(Exception::new);
+    }
+
+
 
 }
