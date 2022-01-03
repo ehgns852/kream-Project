@@ -13,10 +13,4 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
 
      User findByUsername(String username);
 
-    @Query("select u from User u inner join fetch u.boards b")
-    List<User> findAllByWithBoard();
-
-
-
-
 }

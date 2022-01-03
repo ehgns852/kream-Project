@@ -1,14 +1,12 @@
 package com.nklcb.kream.controller;
 
 import com.nklcb.kream.entity.Board;
-import com.nklcb.kream.entity.security.User;
-import com.nklcb.kream.form.BoardForm;
+import com.nklcb.kream.dto.BoardDto;
 import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,7 +47,7 @@ public class BoardController {
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long id) {
         if (id == null) {
-            BoardForm boardForm = new BoardForm();
+            BoardDto boardForm = new BoardDto();
             model.addAttribute("board",boardForm);
         } else {
             Board board = boardRepository.findById(id).orElse(null);
@@ -61,7 +57,7 @@ public class BoardController {
     }
 
     @PostMapping("/form")
-    public String postForm(@Valid @ModelAttribute(name = "board") BoardForm boardForm, BindingResult bindingResult, Authentication authentication){
+    public String postForm(@Valid @ModelAttribute(name = "board") BoardDto boardForm, BindingResult bindingResult, Authentication authentication){
         if (bindingResult.hasErrors()) {
             log.info("write has errors!");
 

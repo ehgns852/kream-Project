@@ -1,5 +1,6 @@
 package com.nklcb.kream.service;
 
+import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.dto.UserDto;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.entity.security.UserRole;
@@ -75,13 +76,13 @@ public class UserService {
     }
 
     /**
-     * User, Board fetch join
+     * User, Board join
+     * V1
      */
     public List<UserForm> findUserAndBoard() {
 
         //User, Board fetch join
-        List<User> findUser = userRepository.findAllByWithBoard();
-
+        List<User> findUser = userRepository.findAllByWithBoardV1();
         log.info("findAllByWithBoard");
 
         //User 리스트를 DTO로 변환후 리스트로 반환
@@ -93,6 +94,16 @@ public class UserService {
 
 
     }
+
+    /**
+     * User, Board join
+     * V2
+     */
+    public List<UserBoardDto> findUserAndBoardV2(){
+
+        return userRepository.findAllByWithBoardV2();
+    }
+
 
     /**
      * 단건 조회

@@ -1,4 +1,4 @@
-package com.nklcb.kream.form;
+package com.nklcb.kream.dto;
 
 import com.nklcb.kream.entity.Board;
 import lombok.AllArgsConstructor;
@@ -9,14 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
-public class BoardForm {
+public class BoardDto {
 
 
 
@@ -34,7 +33,7 @@ public class BoardForm {
 
 
 
-    public BoardForm(Board board) {
+    public BoardDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();

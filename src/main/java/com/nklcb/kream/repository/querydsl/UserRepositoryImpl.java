@@ -1,6 +1,9 @@
 package com.nklcb.kream.repository.querydsl;
 
 
+import com.nklcb.kream.dto.QUserBoardDto;
+import com.nklcb.kream.dto.UserBoardDto;
+import com.nklcb.kream.dto.UserDto;
 import com.nklcb.kream.entity.QBoard;
 import com.nklcb.kream.entity.security.QUser;
 import com.nklcb.kream.entity.security.User;
@@ -23,13 +26,30 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
 
 
     @Override
-    public List<User> findAllByWithBoard() {
+    public List<User> findAllByWithBoardV1() {
 
         return queryFactory
                 .selectFrom(user)
-                .innerJoin(user.boards, board)
+                .innerJoin(user.boards,board)
                 .fetch();
 
+    }
 
+    @Override
+    public List<UserBoardDto> findAllByWithBoardV2() {
+        return queryFactory
+                .select(new QUserBoardDto(
+                        user.id,
+                        user.username,
+                        user.password,
+                        user.enabled,
+                        user.email,
+                        user.createDate,
+                        board.id,
+                        board.title,
+                        board.content))
+                .from(user)
+                .innerJoin(user.boards,board)
+                .fetch();
     }
 }

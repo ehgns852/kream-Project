@@ -1,7 +1,6 @@
 package com.nklcb.kream.controller.api;
 
 import com.nklcb.kream.entity.Board;
-import com.nklcb.kream.form.BoardForm;
 import com.nklcb.kream.repository.BoardRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

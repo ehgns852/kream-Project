@@ -1,5 +1,6 @@
 package com.nklcb.kream.controller.api;
 
+import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.dto.UserDto;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.form.UserForm;
@@ -21,23 +22,34 @@ import java.util.List;
 @Slf4j
 public class UserApiController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
 
     /**
-     * User, Board 엔티티를 fetch join 으로 전체 조회후 반환
+     * User, Board 엔티티를 inner join 으로 전체 조회후 반환 V1
+     * select 쿼리 2번
      */
-    @GetMapping("/users")
-    public Result all() {
+    @GetMapping("/users/v1")
+    public Result allV1() {
         List<UserForm> userAndBoard = userService.findUserAndBoard();
-        log.info("userService - all");
+        log.info("userService - userAndBoard");
 
         return new Result(userAndBoard.size(),userAndBoard);
-
-
-
     }
+
+    /**
+     * User, Board 엔티티를 inner join 으로 전체 조회후 반환 V2
+     * 한방쿼리
+     */
+    @GetMapping("/users/v2")
+    public Result allV2() {
+        List<UserBoardDto> userAndBoardV2 = userService.findUserAndBoardV2();
+        log.info("userService - userAndBoard");
+
+        return new Result(userAndBoardV2.size(),userAndBoardV2);
+    }
+
+
 
     /**
      * User ROLE_ADMIN 권한으로 회원가입

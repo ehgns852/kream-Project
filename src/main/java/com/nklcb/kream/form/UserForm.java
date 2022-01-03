@@ -1,15 +1,13 @@
 package com.nklcb.kream.form;
 
-import com.nklcb.kream.entity.Board;
+import com.nklcb.kream.dto.BoardDto;
 import com.nklcb.kream.entity.security.User;
-import com.nklcb.kream.entity.security.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +27,7 @@ public class UserForm {
 
     private LocalDateTime createDate;
 
-    private List<BoardForm> boards;
+    private List<BoardDto> boards;
 
 
     /**
@@ -43,7 +41,7 @@ public class UserForm {
         this.email = user.getEmail();
         this.createDate = user.getCreateDate();
         this.boards = user.getBoards().stream()
-                .map(board -> new BoardForm(board))
+                .map(board -> new BoardDto(board))
                 .collect(Collectors.toList());
 
         log.info("UserFormConstructor in = {}", this);
