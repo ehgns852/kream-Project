@@ -1,16 +1,12 @@
-package com.nklcb.kream;
+package com.nklcb.kream.dto;
 
 
 import com.nklcb.kream.entity.security.User;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.lang.Nullable;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter

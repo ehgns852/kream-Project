@@ -1,13 +1,10 @@
 package com.nklcb.kream.service;
 
-import com.nklcb.kream.UserDto;
-import com.nklcb.kream.entity.security.Role;
+import com.nklcb.kream.dto.UserDto;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.entity.security.UserRole;
 import com.nklcb.kream.form.UserForm;
-import com.nklcb.kream.repository.RoleRepository;
 import com.nklcb.kream.repository.UserRepository;
-import com.nklcb.kream.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.nklcb.kream.entity.security.Role.*;

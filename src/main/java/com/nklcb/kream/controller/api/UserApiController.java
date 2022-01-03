@@ -1,10 +1,8 @@
 package com.nklcb.kream.controller.api;
 
-import com.nklcb.kream.UserDto;
-import com.nklcb.kream.entity.Board;
+import com.nklcb.kream.dto.UserDto;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.form.UserForm;
-import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.repository.UserRepository;
 import com.nklcb.kream.service.UserService;
 import lombok.AllArgsConstructor;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
