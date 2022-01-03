@@ -5,6 +5,7 @@ import com.nklcb.kream.repository.BoardRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,16 @@ public class BoardApiController {
     @GetMapping("boards/{id}")
     public Board one(@PathVariable Long id) {
         return boardRepository.findById(id).orElse(null);
+    }
+
+
+    /**
+     * ADMIN 권한만 삭제 가능
+     */
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("boards/{id}")
+    void deleteBoard(@PathVariable Long id) {
+        boardRepository.deleteById(id);
     }
 
 

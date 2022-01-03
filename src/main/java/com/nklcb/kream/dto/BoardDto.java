@@ -34,6 +34,7 @@ public class BoardDto {
 
 
     public BoardDto(Board board) {
+
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();

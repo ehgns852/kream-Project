@@ -29,7 +29,9 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
     public List<User> findAllByWithBoardV1() {
 
         return queryFactory
-                .selectFrom(user)
+                .select(user)
+                .distinct()
+                .from(user)
                 .innerJoin(user.boards,board)
                 .fetch();
 

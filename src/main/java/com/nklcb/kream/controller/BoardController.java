@@ -71,10 +71,16 @@ public class BoardController {
 
         boardService.save(username,board);
 
-//        boardRepository.save(board);
-
         return "redirect:/board/list";
 
+    }
+
+    @PostMapping("/delete")
+    public String deleteForm(Board board) {
+
+        boardService.delete(board);
+
+        return "redirect:/board/list";
     }
 
     /**
