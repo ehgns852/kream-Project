@@ -2,36 +2,45 @@ package com.nklcb.kream.controller.api;
 
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.repository.BoardRepository;
+import com.nklcb.kream.service.BoardService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api")
 public class BoardApiController {
 
-    private final BoardRepository boardRepository;
+
+    private final BoardService boardService;
+
 
 
     @GetMapping("/boards")
     public Result all() {
-        List<Board> all = boardRepository.findAll();
+        List<Board> all = boardService.findAll();
         return new Result(all);
     }
 
     @PostMapping("/boards")
-    public Board newBoard(@RequestBody Board newBoard) {
-        return boardRepository.save(newBoard);
+    public Board newBoard(@RequestBody Board newBoard, Authentication authentication) {
+        String username = authentication.getName();
+        return boardService.save(username,newBoard);
     }
 
     @GetMapping("boards/{id}")
-    public Board one(@PathVariable Long id) {
-        return boardRepository.findById(id).orElse(null);
+    public Board one(@PathVariable Long id) throws Exception {
+        return boardService.findById(id).orElseThrow(Exception::new);
     }
 
 
@@ -41,7 +50,15 @@ public class BoardApiController {
     @Secured("ROLE_ADMIN")
     @DeleteMapping("boards/{id}")
     void deleteBoard(@PathVariable Long id) {
-        boardRepository.deleteById(id);
+        boardService.deleteById(id);
+    }
+
+    @GetMapping("boards/all")
+    public Page<Board> findTitleAndContent(Pageable pageable){
+        log.info("in BoardApiController");
+        Page<Board> boards = boardService.PageBoards(pageable);
+        log.info("boards = {}", boards.getTotalPages());
+        return boards;
     }
 
 

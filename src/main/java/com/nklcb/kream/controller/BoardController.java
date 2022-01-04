@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 @RequestMapping("/board")
 public class BoardController {
 
-    private final BoardRepository boardRepository;
 
     private final BoardService boardService;
 
@@ -32,7 +31,7 @@ public class BoardController {
     public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText,
                        Authentication authentication) {
-        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText,pageable);
+        Page<Board> boards = boardService.findByTitleAndContent(searchText, searchText,pageable);
         String username = AuthenticationName(authentication);
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
@@ -50,7 +49,7 @@ public class BoardController {
             BoardDto boardForm = new BoardDto();
             model.addAttribute("board",boardForm);
         } else {
-            Board board = boardRepository.findById(id).orElse(null);
+            Board board = boardService.findById(id).orElse(null);
             model.addAttribute("board",board);
         }
         return "board/form";
@@ -73,14 +72,6 @@ public class BoardController {
 
         return "redirect:/board/list";
 
-    }
-
-    @PostMapping("/delete")
-    public String deleteForm(Board board) {
-
-        boardService.delete(board);
-
-        return "redirect:/board/list";
     }
 
     /**
