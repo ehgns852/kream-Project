@@ -5,6 +5,7 @@ import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class BoardService {
 
@@ -63,6 +65,10 @@ public class BoardService {
      */
     public Page<Board> PageBoards(Pageable pageable) {
         return boardRepository.PageBoards(pageable);
+    }
+
+    public Page<Board> findByTitleOrContent(String title, String content, Pageable pageable) {
+        return boardRepository.findByTitleOrContent(title,content,pageable);
     }
 
 

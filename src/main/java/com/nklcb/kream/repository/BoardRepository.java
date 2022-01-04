@@ -9,7 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom {
 
-    Page<Board> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
-
 
 }

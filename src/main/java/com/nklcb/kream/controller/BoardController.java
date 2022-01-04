@@ -31,8 +31,9 @@ public class BoardController {
     public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText,
                        Authentication authentication) {
-        Page<Board> boards = boardService.findByTitleAndContent(searchText, searchText,pageable);
+        Page<Board> boards = boardService.findByTitleOrContent(searchText, searchText,pageable);
         String username = AuthenticationName(authentication);
+        boards.getPageable().getPageNumber();
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
