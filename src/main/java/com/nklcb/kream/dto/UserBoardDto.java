@@ -36,4 +36,21 @@ public class UserBoardDto {
         this.title = title;
         this.content = content;
     }
+
+    @QueryProjection
+    public UserBoardDto(Long id,String username, Long boardId, String title, String content) {
+        this.userId = id;
+        this.username = username;
+        this.boardId = boardId;
+        this.title = title;
+        this.content = content;
+    }
+
+    @QueryProjection
+    public UserBoardDto(Long id,Long boardId, String title, String content) {
+        this.userId = id;
+        this.boardId = boardId;
+        this.title = title;
+        this.content = content;
+    }
 }

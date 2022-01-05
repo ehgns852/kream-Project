@@ -6,6 +6,7 @@ import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.entity.security.UserRole;
 import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.repository.RoleRepository;
+import com.nklcb.kream.service.BoardService;
 import com.nklcb.kream.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class InitTestData {
     private final BoardRepository boardRepository;
     private final UserService userService;
     private final RoleRepository roleRepository;
+    private final BoardService boardService;
 
 
 
@@ -32,11 +34,7 @@ public class InitTestData {
 
     @PostConstruct
     public void dataInit() {
-        for (int i = 0; i < 20; i++) {
-            Board board = Board.createBoard("title" + i, "content" + i, LocalDateTime.now());
 
-            boardRepository.save(board);
-        }
 
 
         roleRepository.save(ADMIN);
@@ -48,6 +46,15 @@ public class InitTestData {
 
         userService.adminJoin(user1);
         userService.userJoin(user2);
+
+        for (int i = 0; i < 20; i++) {
+            Board board = Board.createBoard("title" + i, "content" + i, LocalDateTime.now());
+            if (i % 2 == 0) {
+                boardService.save("321", board);
+            } else {
+                boardService.save("123", board);
+            }
+        }
 
     }
 

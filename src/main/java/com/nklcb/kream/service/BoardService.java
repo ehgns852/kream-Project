@@ -1,5 +1,7 @@
 package com.nklcb.kream.service;
 
+import com.nklcb.kream.dto.BoardDto;
+import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.security.User;
 import com.nklcb.kream.repository.BoardRepository;
@@ -55,21 +57,20 @@ public class BoardService {
     }
 
 
-    public Page<Board> findByTitleAndContent(String title, String content, Pageable pageable){
-        return boardRepository.findByTitleContainingOrContentContaining(title,content,pageable);
-    }
-
-
     /**
-     * Board Page
+     * Board 전체조회 Paging
      */
     public Page<Board> PageBoards(Pageable pageable) {
         return boardRepository.PageBoards(pageable);
     }
 
-    public Page<Board> findByTitleOrContent(String title, String content, Pageable pageable) {
-        return boardRepository.findByTitleOrContent(title,content,pageable);
+
+
+    public Page<UserBoardDto> findUserAndBoardList(Long userId, Pageable pageable) {
+        return boardRepository.findUserAndBoardList(userId, pageable);
     }
 
-
+    public Page<UserBoardDto> findAllList(String title, String content, Pageable pageable) {
+        return boardRepository.findByListAll(title, content, pageable);
+    }
 }

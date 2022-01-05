@@ -33,6 +33,8 @@ public class BoardDto {
 
 
 
+
+
     public BoardDto(Board board) {
 
         this.id = board.getId();

@@ -1,8 +1,9 @@
 package com.nklcb.kream.controller;
 
+import com.nklcb.kream.config.auth.PrincipalDetails;
+import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.dto.BoardDto;
-import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,19 +31,23 @@ public class BoardController {
 
     private final BoardService boardService;
 
+
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText,
                        Authentication authentication) {
-        Page<Board> boards = boardService.findByTitleOrContent(searchText, searchText,pageable);
-        String username = AuthenticationName(authentication);
-        boards.getPageable().getPageNumber();
+        Page<UserBoardDto> boards = boardService.findAllList(searchText, searchText, pageable);
+        log.info("boards = {}", boards.getTotalElements());
+
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        Long userId = principal.getUserId();
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
-        model.addAttribute("username", username);
+        model.addAttribute("userId", userId);
+
 
         return "board/list";
     }
@@ -73,6 +81,24 @@ public class BoardController {
 
         return "redirect:/board/list";
 
+    }
+
+    /**
+     * 사용자가 작성한 글
+     */
+    @GetMapping("list/myBoard")
+    public String myList(@RequestParam Long id, @PageableDefault(page = 0, size = 10) Pageable pageable,
+                         Model model) {
+        log.info("MYList in");
+        Page<UserBoardDto> findBoard = boardService.findUserAndBoardList(id, pageable);
+
+        log.info("findBoard = {}", findBoard.getTotalElements());
+
+
+
+        model.addAttribute("boards", findBoard);
+
+        return "board/my";
     }
 
     /**
