@@ -58,19 +58,24 @@ public class BoardService {
 
 
     /**
-     * Board 전체조회 Paging
+     * 내 게시글 목록 조회
      */
-    public Page<Board> PageBoards(Pageable pageable) {
-        return boardRepository.PageBoards(pageable);
+    public Page<UserBoardDto> findMyBoardList(Long userId, Pageable pageable) {
+        return boardRepository.findMyBoardList(userId, pageable);
     }
 
-
-
-    public Page<UserBoardDto> findUserAndBoardList(Long userId, Pageable pageable) {
-        return boardRepository.findUserAndBoardList(userId, pageable);
-    }
-
+    /**
+     * 전체 게시글 조회
+     */
     public Page<UserBoardDto> findAllList(String title, String content, Pageable pageable) {
         return boardRepository.findByListAll(title, content, pageable);
+    }
+
+
+    /**
+     * 전체 게시글 조회 API
+     */
+    public Page<UserBoardDto> findAllBoardApi(Pageable pageable) {
+        return boardRepository.findAllBoardApi(pageable);
     }
 }

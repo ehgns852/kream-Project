@@ -1,5 +1,6 @@
 package com.nklcb.kream.controller.api;
 
+import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.service.BoardService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -53,10 +55,11 @@ public class BoardApiController {
         boardService.deleteById(id);
     }
 
+
     @GetMapping("boards/all")
-    public Page<Board> findTitleAndContent(Pageable pageable){
+    public Page<UserBoardDto> findTitleAndContent(@PageableDefault(page = 0, size = 10) Pageable pageable){
         log.info("in BoardApiController");
-        Page<Board> boards = boardService.PageBoards(pageable);
+        Page<UserBoardDto> boards = boardService.findAllBoardApi(pageable);
         log.info("boards = {}", boards.getTotalPages());
         return boards;
     }

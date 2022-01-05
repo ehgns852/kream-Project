@@ -32,6 +32,9 @@ public class BoardController {
     private final BoardService boardService;
 
 
+    /**
+     * 게시글 전체 조회 및 검색 조건 동적 query
+     */
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText,
@@ -39,8 +42,9 @@ public class BoardController {
         Page<UserBoardDto> boards = boardService.findAllList(searchText, searchText, pageable);
         log.info("boards = {}", boards.getTotalElements());
 
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        Long userId = principal.getUserId();
+        //사용자 아이디 반환
+        Long userId = authenticationUserId(authentication);
+
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
@@ -51,6 +55,8 @@ public class BoardController {
 
         return "board/list";
     }
+
+
 
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long id) {
@@ -90,15 +96,15 @@ public class BoardController {
     public String myList(@RequestParam Long id, @PageableDefault(page = 0, size = 10) Pageable pageable,
                          Model model) {
         log.info("MYList in");
-        Page<UserBoardDto> findBoard = boardService.findUserAndBoardList(id, pageable);
+        Page<UserBoardDto> findBoard = boardService.findMyBoardList(id, pageable);
+
 
         log.info("findBoard = {}", findBoard.getTotalElements());
 
-
-
         model.addAttribute("boards", findBoard);
+        model.addAttribute("userId", id);
 
-        return "board/my";
+        return "board/myBoard";
     }
 
     /**
@@ -107,4 +113,14 @@ public class BoardController {
     private String AuthenticationName(Authentication authentication) {
         return authentication.getName();
     }
+
+    /**
+     * 인증 UserId 반환
+     */
+    private Long authenticationUserId(Authentication authentication) {
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        Long userId = principal.getUserId();
+        return userId;
+    }
 }
+

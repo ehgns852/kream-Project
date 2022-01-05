@@ -4,6 +4,7 @@ import com.nklcb.kream.dto.BoardDto;
 import com.nklcb.kream.dto.QUserBoardDto;
 import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.entity.Board;
+import com.nklcb.kream.entity.QBoard;
 import com.nklcb.kream.entity.security.QUser;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -29,7 +30,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
-
+    /**
+     * 전체 게시글 조회
+     */
     @Override
     public Page<UserBoardDto> findByListAll(String title, String content, Pageable pageable) {
         List<UserBoardDto> result = queryFactory
@@ -67,12 +70,23 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
 
 
     /**
-     * 전체 조회
+     * 전체 게시글 조회 API
      */
     @Override
-    public Page<Board> PageBoards(Pageable pageable) {
-        List<Board> result = queryFactory
-                .selectFrom(board)
+    public Page<UserBoardDto> findAllBoardApi(Pageable pageable) {
+        List<UserBoardDto> result = queryFactory
+                .select(new QUserBoardDto(
+                        user.id,
+                        user.username,
+                        user.password,
+                        user.enabled,
+                        user.email,
+                        user.createDate,
+                        board.id,
+                        board.title,
+                        board.content))
+                .from(board)
+                .leftJoin(board.user, user)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -89,10 +103,10 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
 
 
     /**
-     * 사용자가 작성한 글
+     * 내 게시글 조회
      */
     @Override
-    public Page<UserBoardDto> findUserAndBoardList(Long id, Pageable pageable) {
+    public Page<UserBoardDto> findMyBoardList(Long id, Pageable pageable) {
 
         List<UserBoardDto> result = queryFactory
                 .select(new QUserBoardDto(
