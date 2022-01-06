@@ -51,13 +51,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
                 .fetch();
 
         long countQuery = queryFactory
-                .select(new QUserBoardDto(
-                        user.id,
-                        user.username,
-                        board.id,
-                        board.title,
-                        board.content))
-                .from(board)
+                .selectFrom(board)
                 .leftJoin(board.user, user)
                 .where(board.title.contains(title).or(board.content.contains(content)))
                 .fetchCount();

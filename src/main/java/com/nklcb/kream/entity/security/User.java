@@ -2,6 +2,7 @@ package com.nklcb.kream.entity.security;
 
 
 import com.nklcb.kream.entity.Board;
+import com.nklcb.kream.entity.Likes;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,6 +52,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Board> boards = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Likes> likes = new ArrayList<>();
 
     public static User createApiUser(String username, String password, String email) {
          return new User(username,password,email);
