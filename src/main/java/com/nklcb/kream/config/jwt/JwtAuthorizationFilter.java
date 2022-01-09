@@ -1,8 +1,7 @@
 package com.nklcb.kream.config.jwt;
 
 import com.nklcb.kream.config.auth.PrincipalDetails;
-import com.nklcb.kream.entity.security.User;
-import com.nklcb.kream.entity.security.UserRole;
+import com.nklcb.kream.entity.User;
 import com.nklcb.kream.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

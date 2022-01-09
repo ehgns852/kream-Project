@@ -50,8 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/", "/account/register", "/css/**", "/api/**", "/board/**").permitAll()
-//                .antMatchers("/user/**").authenticated()
-//                .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -70,24 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .loginPage("/account/login")
                 .userInfoEndpoint();
-//                .userService(principalOauth2UserService);
 
 
     }
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth)
-//            throws Exception {
-//        auth.jdbcAuthentication()
-//                .dataSource(dataSource)
-////                .passwordEncoder(passwordEncoder())
-//                .usersByUsernameQuery("select username, password, enabled "
-//                        + "from user "
-//                        + "where username = ?")
-//                .authoritiesByUsernameQuery("select u.username, r.name "
-//                        + "from user_role ur inner join user u on ur.user_id = u.user_id "
-//                        + "inner join role r on ur.role_id = r.role_id "
-//                        + "where u.username = ?");
 
     @Bean
     @Override

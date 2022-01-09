@@ -4,8 +4,9 @@ import com.nklcb.kream.config.auth.provider.FacebookUserInfo;
 import com.nklcb.kream.config.auth.provider.GoogleUserInfo;
 import com.nklcb.kream.config.auth.provider.NaverUserInfo;
 import com.nklcb.kream.config.auth.provider.Oauth2UserInfo;
-import com.nklcb.kream.entity.security.User;
-import com.nklcb.kream.entity.security.UserRole;
+import com.nklcb.kream.entity.Role;
+import com.nklcb.kream.entity.User;
+import com.nklcb.kream.entity.UserRole;
 import com.nklcb.kream.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.nklcb.kream.entity.security.Role.*;
+import static com.nklcb.kream.entity.Role.*;
+
 
 @Service
 @Slf4j
@@ -94,18 +96,26 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             log.info("PrincipalOauth2 userEntity = {]", userEntity);
 
            userRepository.save(userEntity);
-
+           List<String> collect = userEntityGetPrincipal(userEntity);
            log.info("Oauth2 Join = {}", userEntity);
+           return new PrincipalDetails(userEntity, collect, oAuth2User.getAttributes());
+
        } else {
-           List<String> collect = userEntity.getUserRoles()
-                   .stream()
-                   .map(u -> u.getRole().getName())
-                   .collect(Collectors.toList());
+           List<String> collect = userEntityGetPrincipal(userEntity);
            log.info("collect = {}", collect);
            return new PrincipalDetails(userEntity, collect, oAuth2User.getAttributes());
        }
 
+    }
 
-       return super.loadUser(userRequest);
+    /**
+     * Stream user정보
+     */
+    private List<String> userEntityGetPrincipal(User userEntity) {
+        List<String> collect = userEntity.getUserRoles()
+                .stream()
+                .map(u -> u.getRole().getName())
+                .collect(Collectors.toList());
+        return collect;
     }
 }

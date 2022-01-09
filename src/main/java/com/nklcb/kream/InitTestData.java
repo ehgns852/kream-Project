@@ -2,28 +2,26 @@ package com.nklcb.kream;
 
 
 import com.nklcb.kream.entity.Board;
-import com.nklcb.kream.entity.security.User;
-import com.nklcb.kream.entity.security.UserRole;
-import com.nklcb.kream.repository.BoardRepository;
+import com.nklcb.kream.entity.User;
 import com.nklcb.kream.repository.RoleRepository;
 import com.nklcb.kream.service.BoardService;
 import com.nklcb.kream.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
 import java.time.LocalDateTime;
 
-import static com.nklcb.kream.entity.security.Role.*;
+import static com.nklcb.kream.entity.Role.*;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class InitTestData {
 
-    private final BoardRepository boardRepository;
     private final UserService userService;
     private final RoleRepository roleRepository;
     private final BoardService boardService;
@@ -33,6 +31,7 @@ public class InitTestData {
 
 
     @PostConstruct
+    @Transactional
     public void dataInit() {
 
 

@@ -1,8 +1,6 @@
 package com.nklcb.kream.config.auth;
 
-import com.nklcb.kream.entity.security.Role;
-import com.nklcb.kream.entity.security.User;
-import com.nklcb.kream.entity.security.UserRole;
+import com.nklcb.kream.entity.User;
 import com.nklcb.kream.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

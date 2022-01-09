@@ -2,7 +2,7 @@ package com.nklcb.kream.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nklcb.kream.config.auth.PrincipalDetails;
-import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;

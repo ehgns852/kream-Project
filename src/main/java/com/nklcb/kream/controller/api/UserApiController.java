@@ -2,9 +2,8 @@ package com.nklcb.kream.controller.api;
 
 import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.dto.UserDto;
-import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.User;
 import com.nklcb.kream.form.UserForm;
-import com.nklcb.kream.repository.UserRepository;
 import com.nklcb.kream.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

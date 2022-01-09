@@ -5,7 +5,7 @@ import com.nklcb.kream.dto.QUserBoardDto;
 import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.QBoard;
-import com.nklcb.kream.entity.security.QUser;
+import com.nklcb.kream.entity.QUser;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -20,7 +20,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.util.List;
 
 import static com.nklcb.kream.entity.QBoard.*;
-import static com.nklcb.kream.entity.security.QUser.*;
+import static com.nklcb.kream.entity.QUser.*;
 import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor

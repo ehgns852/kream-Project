@@ -2,8 +2,9 @@ package com.nklcb.kream.service;
 
 import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.dto.UserDto;
-import com.nklcb.kream.entity.security.User;
-import com.nklcb.kream.entity.security.UserRole;
+import com.nklcb.kream.entity.Role;
+import com.nklcb.kream.entity.User;
+import com.nklcb.kream.entity.UserRole;
 import com.nklcb.kream.form.UserForm;
 import com.nklcb.kream.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.nklcb.kream.entity.security.Role.*;
+import static com.nklcb.kream.entity.Role.ADMIN;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         log.info("encoder success");
 
-        UserRole userRole = UserRole.addUserRole(user, USER);
+        UserRole userRole = UserRole.addUserRole(user, Role.USER);
         log.info("save userRole = {}", userRole);
         LocalDateTime createDate = LocalDateTime.now();
 

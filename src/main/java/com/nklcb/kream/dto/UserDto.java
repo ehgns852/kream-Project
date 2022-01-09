@@ -1,7 +1,7 @@
 package com.nklcb.kream.dto;
 
 
-import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.User;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 

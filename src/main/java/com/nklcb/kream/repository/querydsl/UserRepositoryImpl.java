@@ -5,8 +5,8 @@ import com.nklcb.kream.dto.QUserBoardDto;
 import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.dto.UserDto;
 import com.nklcb.kream.entity.QBoard;
-import com.nklcb.kream.entity.security.QUser;
-import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.QUser;
+import com.nklcb.kream.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.nklcb.kream.entity.QBoard.*;
-import static com.nklcb.kream.entity.security.QUser.*;
+import static com.nklcb.kream.entity.QUser.*;
 
 
 @RequiredArgsConstructor
@@ -29,11 +29,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
     public List<User> findAllByWithBoardV1() {
 
         return queryFactory
-                .select(user)
+                .selectFrom(user)
                 .distinct()
-                .from(user)
                 .innerJoin(user.boards,board)
                 .fetch();
+
 
     }
 

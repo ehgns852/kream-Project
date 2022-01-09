@@ -1,6 +1,6 @@
 package com.nklcb.kream.controller;
 
-import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.User;
 import com.nklcb.kream.repository.RoleRepository;
 import com.nklcb.kream.repository.UserRoleRepository;
 import com.nklcb.kream.service.UserService;

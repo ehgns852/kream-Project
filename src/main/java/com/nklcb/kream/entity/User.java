@@ -1,22 +1,16 @@
-package com.nklcb.kream.entity.security;
+package com.nklcb.kream.entity;
 
 
-import com.nklcb.kream.entity.Board;
-import com.nklcb.kream.entity.Likes;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @NoArgsConstructor
@@ -52,8 +46,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Board> boards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Likes> likes = new ArrayList<>();
 
     public static User createApiUser(String username, String password, String email) {
          return new User(username,password,email);

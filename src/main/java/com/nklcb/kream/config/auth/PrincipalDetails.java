@@ -1,6 +1,6 @@
 package com.nklcb.kream.config.auth;
 
-import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,5 @@
 package com.nklcb.kream.entity;
 
-import com.nklcb.kream.entity.security.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

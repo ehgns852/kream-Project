@@ -3,7 +3,7 @@ package com.nklcb.kream.service;
 import com.nklcb.kream.dto.BoardDto;
 import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.entity.Board;
-import com.nklcb.kream.entity.security.User;
+import com.nklcb.kream.entity.User;
 import com.nklcb.kream.repository.BoardRepository;
 import com.nklcb.kream.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
