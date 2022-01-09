@@ -70,7 +70,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
        String provider = oauth2UserInfo.getProvider(); //google, facebook
        String providerId = oauth2UserInfo.getProviderId(); //google,facebook primary Key
-       String username = provider + "_" + providerId;
+       String username = oauth2UserInfo.getEmail();
        String passwordEncode = UUID.randomUUID().toString();
        String password = passwordEncoder.encode(passwordEncode);
        String email = oauth2UserInfo.getEmail();
