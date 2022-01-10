@@ -36,13 +36,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{user/serviceCenter}">고객센터</a>
+                    <a class="nav-link" th:href="@{/serviceCenter}">고객센터</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{user/interestedItems}">관심상품</a>
+                    <a class="nav-link" th:href="@{/interestedItems}">관심상품</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{user/myPage}">마이페이지</a>
+                    <a class="nav-link" th:href="@{/myPage}">마이페이지</a>
                 </li>
             </ul>
         </div>
@@ -71,11 +71,21 @@
                     </ul>
                 </li>
             </ul>
-                <a class="btn btn-outline-light" th:href="@{user/cart}"  type="submit">
+
+            <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <a class="btn btn-outline-light" th:href="@{/admin/productManagement}" sec:authorize="isAuthenticated()">
+                상품관리
+                <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
+            </a>
+        </div>
+
+            <li>
+                <a class="btn btn-outline-light" th:href="@{/cart}"  type="submit">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </a>
+            </li>
 
             <li><a class="btn btn-secondary my-2 mr2 my-sm-0" th:href="@{/account/login}"
                sec:authorize="!isAuthenticated()">Login</a></li>
