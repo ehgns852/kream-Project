@@ -9,5 +9,8 @@ import java.util.List;
 
 public interface ItemRepositoryCustom {
 
+    /**
+     * 등록한 상품 전체 리스트
+     */
     Page<ItemDto> findAllList(Pageable pageable);
 }

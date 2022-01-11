@@ -32,8 +32,8 @@
         <tbody>
         <tr th:each="item : ${items}">
             <td th:text="${item.id}">id</td>
-            <td> <a th:text="${item.brandName}" th:href="@{/item/form(id=${item.id})}">브랜드</a></td>
-            <td th:text="${item.itemName}">상품명</td>
+            <td th:text="${item.brandName}">브랜드</td>
+            <td> <a th:text="${item.itemName}" th:href="@{/admin/itemDetail(id=${item.id})}">상품명</a></td>
             <td th:text="${item.price}">판매가격</td>
             <td th:text="${item.stockQuantity}">재고수량</td>
             <td th:text="${item.createDate}">등록시간</td>
@@ -42,24 +42,24 @@
         </tr>
         </tbody>
     </table>
-<!--    <nav aria-label="Page navigation example">-->
-<!--        <ul class="pagination justify-content-center">-->
-<!--            <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">-->
-<!--                <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1}, searchText=${param.searchText})}"-->
-<!--                   tabindex="-1" aria-disabled="true">Previous</a>-->
-<!--            </li>-->
-<!---->
-<!--            <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'"-->
-<!--                th:each="i : ${#numbers.sequence(startPage, endPage)}">-->
-<!--                <a class="page-link" href="#" th:href="@{/board/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a></li>-->
-<!---->
-<!--            <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">-->
-<!--                <a class="page-link" href="#" th:href="@{/board/list(page=${boards.pageable.pageNumber +1}, searchText=${param.searchText})}">Next</a>-->
-<!--            </li>-->
-<!--        </ul>-->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == items.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/admin/productManagement(page=${items.pageable.pageNumber - 1}, searchText=${param.searchText})}"
+                   tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+
+            <li class="page-item" th:classappend="${i == items.pageable.pageNumber + 1} ? 'disabled'"
+                th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link" href="#" th:href="@{/admin/productManagement(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a></li>
+
+            <li class="page-item" th:classappend="${items.totalPages == items.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" href="#" th:href="@{/admin/productManagement(page=${items.pageable.pageNumber +1}, searchText=${param.searchText})}">Next</a>
+            </li>
+        </ul>
 <!--    </nav>-->
     <div class="text-right">
-        <a type="button" class="btn btn-primary" th:href="@{/board/form}">상품등록</a>
+        <a type="button" class="btn btn-primary" th:href="@{/admin/itemForm}">상품등록</a>
     </div>
 </div>
 <footer th:replace="fragments/common :: footer">

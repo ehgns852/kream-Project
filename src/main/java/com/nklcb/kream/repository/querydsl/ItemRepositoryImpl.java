@@ -19,10 +19,15 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
+
+    /**
+     * 등록한 상품 전체 리스트
+     */
     @Override
     public Page<ItemDto> findAllList(Pageable pageable) {
         List<ItemDto> items = queryFactory
                 .select(new QItemDto(
+                        item.id,
                         item.brandName,
                         item.itemName,
                         item.price,

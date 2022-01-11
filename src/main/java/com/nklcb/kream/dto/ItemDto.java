@@ -29,7 +29,8 @@ public class ItemDto {
 
 
     @QueryProjection
-    public ItemDto(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate) {
+    public ItemDto(Long id, String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate) {
+        this.id = id;
         this.brandName = brandName;
         this.itemName = itemName;
         this.price = price;

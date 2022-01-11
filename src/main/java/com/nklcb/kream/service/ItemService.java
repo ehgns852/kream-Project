@@ -27,6 +27,10 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+
+    /**
+     * 등록한 상품 전체 리스트
+     */
     public Page<ItemDto> findAllList(Pageable pageable) {
         return itemRepository.findAllList(pageable);
     }
