@@ -3,6 +3,8 @@ package com.nklcb.kream;
 
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.User;
+import com.nklcb.kream.entity.item.Item;
+import com.nklcb.kream.repository.ItemRepository;
 import com.nklcb.kream.repository.RoleRepository;
 import com.nklcb.kream.service.BoardService;
 import com.nklcb.kream.service.UserService;
@@ -25,7 +27,7 @@ public class InitTestData {
     private final UserService userService;
     private final RoleRepository roleRepository;
     private final BoardService boardService;
-
+    private final ItemRepository itemRepository;
 
 
 
@@ -54,6 +56,13 @@ public class InitTestData {
                 boardService.save("123", board);
             }
         }
+
+        for (int i = 0; i < 10; i++) {
+            Item item = Item.addItem("nike" + i, "air max" + i, 200000, 100, LocalDateTime.now());
+
+            itemRepository.save(item);
+        }
+
 
     }
 
