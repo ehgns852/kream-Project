@@ -10,11 +10,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Controller
@@ -47,16 +50,24 @@ public class ItemController {
     }
 
     @GetMapping("/uploadItem")
-    public String uploadPage() {
-
+    public String uploadPage(@ModelAttribute(name = "item") ItemDto itemDto) {
+        log.info("GET uploadPage");
         return "item/uploadItem";
     }
 
 
     @PostMapping("/uploadItem")
-    public String itemSave(){
+    public String itemSave(@Valid ItemDto itemDto, BindingResult bindingResult){
+        log.info("POST uploadPage");
+        if (bindingResult.hasErrors()){
+            log.info("itemDto = {}",itemDto);
+            return "/item/uploadItem";
+        }
+            Item newItem = Item.addItem(itemDto.getBrandName(), itemDto.getItemName(), itemDto.getPrice(), itemDto.getStockQuantity(), LocalDateTime.now());
+            log.info("newItem = {}", newItem);
+            itemService.save(newItem);
 
-
-        return "redirect:/";
+            log.info("item save success");
+            return "redirect:/";
     }
 }

@@ -19,25 +19,25 @@
                     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
                     <div class="col-md-6">
                         <div class="small mb-1">관리자 페이지</div>
-                        <h1 class="display-5 fw-bolder">상품 정보</h1>
+                        <h1 class="display-5 fw-bolder">상품 등록</h1>
                         <div class="fs-5 mb-5"></div>
-                        <form th:action="@{/admin/uploadItem}" method="post">
+                        <form th:action="@{/admin/uploadItem}" method="post" th:object="${item}">
                             <div class="row g-3 align-items-center">
                                 <div class="col-12">
                                     <label for="brandName" class="col-form-label">브랜드명</label>
-                                    <input type="text" id="brandName" class="form-control">
+                                    <input type="text" id="brandName" th:field="*{brandName}" class="form-control">
                                 </div>
                                 <div class="col-12">
                                     <label for="itemName" class="col-form-label">상품명</label>
-                                    <input type="text" id="itemName" class="form-control">
+                                    <input type="text" id="itemName" th:field="*{itemName}" class="form-control">
                                 </div>
                                 <div class="col-12">
                                 <label for="price" class="col-form-label">가격</label>
-                                    <input type="text" id="price" class="form-control">
+                                    <input type="text" id="price" th:field="*{price}" class="form-control">
                                 </div>
                                 <div class="col-12">
                                 <label for="stockQuantity" class="col-form-label">재고수량</label>
-                                    <input type="text" id="stockQuantity" class="form-control">
+                                    <input type="text" id="stockQuantity" th:field="*{stockQuantity}" class="form-control">
                                 </div>
                                     <p><div class="col-12"></p>
                                     <button class="btn btn-outline-dark flex-shrink-0" type="submit">
