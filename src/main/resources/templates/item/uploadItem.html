@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head('KREAM | 한정판 거래의 FLEX')">
+
+        <title>uploadItem</title>
+
+    </head>
+    <body>
+        <!-- Navigation-->
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('uploadItem')">
+        </nav>
+
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                    <div class="col-md-6">
+                        <div class="small mb-1">관리자 페이지</div>
+                        <h1 class="display-5 fw-bolder">상품 정보</h1>
+                        <div class="fs-5 mb-5"></div>
+                        <form th:action="@{/admin/uploadItem}" method="post">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-12">
+                                    <label for="brandName" class="col-form-label">브랜드명</label>
+                                    <input type="text" id="brandName" class="form-control">
+                                </div>
+                                <div class="col-12">
+                                    <label for="itemName" class="col-form-label">상품명</label>
+                                    <input type="text" id="itemName" class="form-control">
+                                </div>
+                                <div class="col-12">
+                                <label for="price" class="col-form-label">가격</label>
+                                    <input type="text" id="price" class="form-control">
+                                </div>
+                                <div class="col-12">
+                                <label for="stockQuantity" class="col-form-label">재고수량</label>
+                                    <input type="text" id="stockQuantity" class="form-control">
+                                </div>
+                                    <p><div class="col-12"></p>
+                                    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                        <i class="bi bi-box"></i>
+                                        저장하기
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<!--         Footer-->
+        <footer th:replace="fragments/common :: footer">
+        </footer>
+    </body>
+</html>

@@ -33,11 +33,12 @@
         <tr th:each="item : ${items}">
             <td th:text="${item.id}">id</td>
             <td th:text="${item.brandName}">브랜드</td>
-            <td> <a th:text="${item.itemName}" th:href="@{/admin/itemDetail(id=${item.id})}">상품명</a></td>
+            <td th:text="${item.itemName}">상품명</td>
             <td th:text="${item.price}">판매가격</td>
             <td th:text="${item.stockQuantity}">재고수량</td>
             <td th:text="${item.createDate}">등록시간</td>
             <td th:text="${item.updateDate}">수정시간</td>
+            <td><a type="button" class="btn btn-primary" th:href="@{/admin/itemDetail(id=${item.id})}">수정</a></td>
 
         </tr>
         </tbody>
@@ -57,9 +58,9 @@
                 <a class="page-link" href="#" th:href="@{/admin/productManagement(page=${items.pageable.pageNumber +1}, searchText=${param.searchText})}">Next</a>
             </li>
         </ul>
-<!--    </nav>-->
+    </nav>
     <div class="text-right">
-        <a type="button" class="btn btn-primary" th:href="@{/admin/itemForm}">상품등록</a>
+        <a type="button" class="btn btn-primary" th:href="@{/admin/uploadItem}">상품등록</a>
     </div>
 </div>
 <footer th:replace="fragments/common :: footer">

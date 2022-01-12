@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -45,9 +46,17 @@ public class ItemController {
         return "item/admin-itemList";
     }
 
-    @GetMapping("/itemForm")
-    public String itemForm(){
+    @GetMapping("/uploadItem")
+    public String uploadPage() {
 
-        return "item/itemForm";
+        return "item/uploadItem";
+    }
+
+
+    @PostMapping("/uploadItem")
+    public String itemSave(){
+
+
+        return "redirect:/";
     }
 }
