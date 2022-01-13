@@ -1,17 +1,13 @@
 package com.nklcb.kream.entity.item;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
 @Entity
@@ -21,7 +17,7 @@ import static lombok.AccessLevel.*;
 public class Item {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "item_id")
     private Long id;
 
@@ -37,6 +33,10 @@ public class Item {
 
     private LocalDateTime updateDate;
 
+    private String filePath;
+
+
+
 
     protected Item(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate) {
         this.brandName = brandName;
@@ -45,6 +45,19 @@ public class Item {
         this.stockQuantity = stockQuantity;
         this.createDate = createDate;
     }
+
+
+    @Builder
+    public Item(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate, String filePath) {
+        this.brandName = brandName;
+        this.itemName = itemName;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.createDate = createDate;
+        this.filePath = filePath;
+    }
+
+
 
     /**
      * item 생성 팩토리 메서드

@@ -1,6 +1,7 @@
 package com.nklcb.kream.service;
 
 import com.nklcb.kream.dto.ItemDto;
+import com.nklcb.kream.dto.querydsl.ItemQueryDto;
 import com.nklcb.kream.entity.item.Item;
 import com.nklcb.kream.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,29 @@ public class ItemService {
     public Page<ItemDto> findAllList(Pageable pageable) {
         return itemRepository.findAllList(pageable);
     }
+
+
+    /**
+     * 상품 수정 시  @PathVariable id  조회
+     */
+    public Optional<Item> findById(Long id){
+        return itemRepository.findById(id);
+    }
+
+    /**
+     * 상품 삭제(id 검색)
+     */
+    @Transactional
+    public void deleteById(Long id) {
+        itemRepository.deleteById(id);
+    }
+
+    public ItemQueryDto findByIdDto(Long id) {
+        return itemRepository.findByIdDto(id);
+    }
+
+
+
 
 
 }

@@ -38,7 +38,7 @@
             <td th:text="${item.stockQuantity}">재고수량</td>
             <td th:text="${item.createDate}">등록시간</td>
             <td th:text="${item.updateDate}">수정시간</td>
-            <td><a type="button" class="btn btn-primary" th:href="@{/admin/itemDetail(id=${item.id})}">수정</a></td>
+            <td><a type="button" class="btn btn-primary" th:href="@{/admin/uploadItem(id=${item.id})}">수정</a></td>
 
         </tr>
         </tbody>

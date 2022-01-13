@@ -19,9 +19,15 @@
                     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
                     <div class="col-md-6">
                         <div class="small mb-1">관리자 페이지</div>
-                        <h1 class="display-5 fw-bolder">상품 등록</h1>
+                        <h1 class="display-5 fw-bolder">
+                            <span th:if="${item.id == null}">상품 등록</span>
+                            </h1>
+                        <h1 class="display-5 fw-bolder">
+                            <span th:if="${item.id != null}">상품 수정</span>
+                            </h1>
                         <div class="fs-5 mb-5"></div>
-                        <form th:action="@{/admin/uploadItem}" method="post" th:object="${item}">
+
+                        <form th:action="@{/admin/uploadItem}" method="post" th:object="${item}" enctype="multipart/form-data">
                             <div class="row g-3 align-items-center">
                                 <div class="col-12">
                                     <label for="brandName" class="col-form-label">브랜드명</label>
@@ -39,12 +45,20 @@
                                 <label for="stockQuantity" class="col-form-label">재고수량</label>
                                     <input type="text" id="stockQuantity" th:field="*{stockQuantity}" class="form-control">
                                 </div>
+
+                                <div class="col-12">
+                                    <label for="file" class="col-form-label">상품 이미지 업로드</label>
+                                        <input class="form-control" type="file" id="file" th:field="*{file}" multiple>
+                                </div>
+
                                     <p><div class="col-12"></p>
                                     <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                                         <i class="bi bi-box"></i>
                                         저장하기
                                     </button>
-                                </div>
+                                <a type="button" class="btn btn-primary" th:href="@{/admin/productManagement}">취소</a>
+                                    <button type="button" th:if="*{id} != null" class="btn btn-danger" th:onclick="|deleteItem(*{id})|">삭제</button>
+                            </div>
                             </div>
                         </form>
 
@@ -56,5 +70,19 @@
 <!--         Footer-->
         <footer th:replace="fragments/common :: footer">
         </footer>
+        <script>
+    function deleteItem(id){
+    //Delete /api/deleteItem/{itemId}
+    $.ajax({
+        url: '/api/deleteItem/' + id,
+        type: 'DELETE',
+        success: function(result) {
+         console.log('result',result);
+         alert('삭제됐습니다.');
+         window.location.href = '/admin/productManagement';
+        }
+        });
+    }
+</script>
     </body>
 </html>

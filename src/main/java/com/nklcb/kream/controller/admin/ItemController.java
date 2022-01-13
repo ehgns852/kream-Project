@@ -1,22 +1,24 @@
 package com.nklcb.kream.controller.admin;
 
 import com.nklcb.kream.dto.ItemDto;
+import com.nklcb.kream.dto.querydsl.ItemQueryDto;
 import com.nklcb.kream.entity.item.Item;
 import com.nklcb.kream.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -24,6 +26,9 @@ import java.time.LocalDateTime;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class ItemController {
+
+    @Value("${file.dir}")
+    private String fileDir;
 
     private final ItemService itemService;
 
@@ -49,25 +54,61 @@ public class ItemController {
         return "item/admin-itemList";
     }
 
+
+    /**
+     * 상품 등록, 수정 페이지
+     */
     @GetMapping("/uploadItem")
-    public String uploadPage(@ModelAttribute(name = "item") ItemDto itemDto) {
+    public String uploadPage(@RequestParam(required = false) Long id, Model model) throws Exception {
+        if (id == null) {
+            ItemDto item = new ItemDto();
+            model.addAttribute("item", item);
+        } else {
+            ItemQueryDto findItem = itemService.findByIdDto(id);
+            model.addAttribute("item", findItem);
+        }
         log.info("GET uploadPage");
         return "item/uploadItem";
     }
 
 
+    /**
+     * 상품 등록
+     */
     @PostMapping("/uploadItem")
-    public String itemSave(@Valid ItemDto itemDto, BindingResult bindingResult){
+    public String addItem(@Valid ItemDto itemDto, BindingResult bindingResult) throws IOException {
         log.info("POST uploadPage");
+
+        MultipartFile multipartFile = itemDto.getFile();
+        String file = itemDto.getFile().getOriginalFilename();
+
+        if (!multipartFile.isEmpty()){
+            String fullPath = fileDir + file;
+            log.info("파일 저장 = {}", fullPath);
+            multipartFile.transferTo(new File(fullPath));
+        }
+
         if (bindingResult.hasErrors()){
             log.info("itemDto = {}",itemDto);
             return "/item/uploadItem";
         }
-            Item newItem = Item.addItem(itemDto.getBrandName(), itemDto.getItemName(), itemDto.getPrice(), itemDto.getStockQuantity(), LocalDateTime.now());
-            log.info("newItem = {}", newItem);
+
+//            Item newItem = Item.addItem(itemDto.getBrandName(), itemDto.getItemName(), itemDto.getPrice(), itemDto.getStockQuantity(), LocalDateTime.now());
+
+        Item newItem = Item.builder()
+                .brandName(itemDto.getBrandName())
+                .itemName(itemDto.getItemName()).price(itemDto.getPrice())
+                .stockQuantity(itemDto.getStockQuantity())
+                .createDate(LocalDateTime.now())
+                .filePath(fileDir + file)
+                .build();
+
+        log.info("newItem = {}", newItem);
             itemService.save(newItem);
 
             log.info("item save success");
-            return "redirect:/";
+            return "redirect:/admin/productManagement";
     }
+
+
 }
