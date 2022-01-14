@@ -1,12 +1,12 @@
 package com.nklcb.kream.entity.item;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -33,7 +33,14 @@ public class Item {
 
     private LocalDateTime updateDate;
 
-    private String filePath;
+
+    @OneToOne(fetch = LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "upload_file_id")
+    private UploadFile attachFile;
+
+//    @OneToMany
+//    @JoinColumn(name = "upload_file_id")
+//    private List<UploadFile> imageFiles;
 
 
 
@@ -48,13 +55,13 @@ public class Item {
 
 
     @Builder
-    public Item(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate, String filePath) {
+    public Item(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate, UploadFile attachFile) {
         this.brandName = brandName;
         this.itemName = itemName;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.createDate = createDate;
-        this.filePath = filePath;
+        this.attachFile = attachFile;
     }
 
 

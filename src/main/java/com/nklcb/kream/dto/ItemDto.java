@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -41,15 +42,7 @@ public class ItemDto {
 
     private MultipartFile file;
 
+    private List<MultipartFile> imageFiles;
 
-    @QueryProjection
-    public ItemDto(Long id, String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate) {
-        this.id = id;
-        this.brandName = brandName;
-        this.itemName = itemName;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-        this.createDate = createDate;
-    }
 
 }

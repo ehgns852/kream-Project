@@ -16,7 +16,10 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                    <div class="col-md-6">
+                        <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg"/>
+                            <img class="card-img-top mb-5 mb-md-0" th:if="${item.id != null}"th:src="|/${item.filePath}/${item.storeFileName}|" alt="..." />
+                    </div>
                     <div class="col-md-6">
                         <div class="small mb-1">관리자 페이지</div>
                         <h1 class="display-5 fw-bolder">
@@ -47,8 +50,16 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="file" class="col-form-label">상품 이미지 업로드</label>
-                                        <input class="form-control" type="file" id="file" th:field="*{file}" multiple>
+                                    <label for="file" class="col-form-label" th:if="${item.id == null}">상품 이미지 업로드</label>
+                                    <input class="form-control" type="file" th:if="${item.id == null}" id="file" th:field="*{file}">
+
+                                    <div>
+                                    <label for="uploadFile" class="col-form-label" th:if="${item.id != null}">상품 이미지</label>
+                                        <input class="form-control" type="file" th:if="${item.id != null}" id="uploadFile">
+                                        <input class="form-control" type="text" th:if="${item.id != null}"  th:value="*{uploadFileName}">
+
+                                    </div>
+                                    <!--                                        <input class="form-control" type="file" id="file" multiple="multiple" th:field="*{file}">-->
                                 </div>
 
                                     <p><div class="col-12"></p>

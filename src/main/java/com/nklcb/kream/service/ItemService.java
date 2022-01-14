@@ -33,7 +33,7 @@ public class ItemService {
     /**
      * 등록한 상품 전체 리스트
      */
-    public Page<ItemDto> findAllList(Pageable pageable) {
+    public Page<ItemQueryDto> findAllList(Pageable pageable) {
         return itemRepository.findAllList(pageable);
     }
 
@@ -53,6 +53,10 @@ public class ItemService {
         itemRepository.deleteById(id);
     }
 
+
+    /**
+     * id로 ItemQueryDto로 변환해서 조회
+     */
     public ItemQueryDto findByIdDto(Long id) {
         return itemRepository.findByIdDto(id);
     }

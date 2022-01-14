@@ -13,8 +13,11 @@ public interface ItemRepositoryCustom {
     /**
      * 등록한 상품 전체 리스트
      */
-    Page<ItemDto> findAllList(Pageable pageable);
+    Page<ItemQueryDto> findAllList(Pageable pageable);
 
+    /**
+     * id로 ItemQueryDto 변환해서 조회
+     */
     ItemQueryDto findByIdDto(Long id);
 
 }

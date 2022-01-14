@@ -3,6 +3,8 @@ package com.nklcb.kream.controller.admin;
 import com.nklcb.kream.dto.ItemDto;
 import com.nklcb.kream.dto.querydsl.ItemQueryDto;
 import com.nklcb.kream.entity.item.Item;
+import com.nklcb.kream.entity.item.UploadFile;
+import com.nklcb.kream.file.FileStore;
 import com.nklcb.kream.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -27,8 +28,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ItemController {
 
-    @Value("${file.dir}")
-    private String fileDir;
+    private final FileStore fileStore;
 
     private final ItemService itemService;
 
@@ -41,7 +41,7 @@ public class ItemController {
 
         log.info("in AdminController");
 
-        Page<ItemDto> findList = itemService.findAllList(pageable);
+        Page<ItemQueryDto> findList = itemService.findAllList(pageable);
 
         int startPage = Math.max(1, findList.getPageable().getPageNumber() - 4);
         int endPage = Math.min(findList.getTotalPages(), findList.getPageable().getPageNumber() + 4);
@@ -65,6 +65,8 @@ public class ItemController {
             model.addAttribute("item", item);
         } else {
             ItemQueryDto findItem = itemService.findByIdDto(id);
+            log.info("findItem = {}", findItem);
+
             model.addAttribute("item", findItem);
         }
         log.info("GET uploadPage");
@@ -79,14 +81,7 @@ public class ItemController {
     public String addItem(@Valid ItemDto itemDto, BindingResult bindingResult) throws IOException {
         log.info("POST uploadPage");
 
-        MultipartFile multipartFile = itemDto.getFile();
-        String file = itemDto.getFile().getOriginalFilename();
-
-        if (!multipartFile.isEmpty()){
-            String fullPath = fileDir + file;
-            log.info("파일 저장 = {}", fullPath);
-            multipartFile.transferTo(new File(fullPath));
-        }
+        UploadFile uploadFile = fileStore.storeFile(itemDto.getFile());
 
         if (bindingResult.hasErrors()){
             log.info("itemDto = {}",itemDto);
@@ -100,7 +95,7 @@ public class ItemController {
                 .itemName(itemDto.getItemName()).price(itemDto.getPrice())
                 .stockQuantity(itemDto.getStockQuantity())
                 .createDate(LocalDateTime.now())
-                .filePath(fileDir + file)
+                .attachFile(uploadFile)
                 .build();
 
         log.info("newItem = {}", newItem);
