@@ -4,9 +4,9 @@ package com.nklcb.kream;
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.User;
 import com.nklcb.kream.entity.item.Item;
-import com.nklcb.kream.repository.ItemRepository;
 import com.nklcb.kream.repository.RoleRepository;
 import com.nklcb.kream.service.BoardService;
+import com.nklcb.kream.service.ItemService;
 import com.nklcb.kream.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class InitTestData {
     private final UserService userService;
     private final RoleRepository roleRepository;
     private final BoardService boardService;
-    private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
 
 
@@ -58,9 +58,15 @@ public class InitTestData {
         }
 
         for (int i = 0; i < 20; i++) {
-            Item item = Item.addItem("nike" + i, "air max" + i, 200000, 100, LocalDateTime.now());
+            Item item = Item.builder()
+                    .brandName("nike" + i).itemName("air max" + i)
+                    .price(20000)
+                    .stockQuantity(100)
+                    .createDate(LocalDateTime.now())
+                    .attachFile(null)
+                    .build();
 
-            itemRepository.save(item);
+            itemService.save(item);
         }
 
 

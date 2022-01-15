@@ -69,4 +69,5 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .where(item.id.eq(id))
                 .fetchOne();
     }
+
 }

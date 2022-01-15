@@ -34,4 +34,13 @@ public class UploadFile {
         this.storeFileName = storeFileName;
         this.filePath = filePath;
     }
+
+    public void updateUploadFile(String uploadFileName, String storeFileName,String filePath) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
+        this.filePath = filePath;
+
+    }
+
+
 }

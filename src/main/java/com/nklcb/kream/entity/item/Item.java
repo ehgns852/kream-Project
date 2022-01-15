@@ -1,10 +1,10 @@
 package com.nklcb.kream.entity.item;
 
+import com.nklcb.kream.dto.querydsl.ItemQueryDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
@@ -38,11 +38,6 @@ public class Item {
     @JoinColumn(name = "upload_file_id")
     private UploadFile attachFile;
 
-//    @OneToMany
-//    @JoinColumn(name = "upload_file_id")
-//    private List<UploadFile> imageFiles;
-
-
 
 
     protected Item(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate) {
@@ -71,5 +66,33 @@ public class Item {
      */
     public static Item addItem(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate) {
         return new Item(brandName, itemName, price, stockQuantity, createDate);
+    }
+
+
+    /**
+     * Item + UploadFile 수정시 사용
+     * 기존 파일이 없다면 -> 새로 생성하여 저장
+     */
+    public void updateItem(ItemQueryDto item) {
+        this.brandName = item.getBrandName();
+        this.itemName = item.getItemName();
+        this.price = item.getPrice();
+        this.stockQuantity = item.getStockQuantity();
+        if (this.attachFile == null) {
+            this.attachFile = new UploadFile(item.getUploadFileName(), item.getStoreFileName(), item.getFilePath());
+        } else {
+            getAttachFile().updateUploadFile(item.getUploadFileName(), item.getStoreFileName(), item.getFilePath());
+        }
+
+    }
+
+    /**
+     * uploadFile 변경x  Only Item Entity 수정시 사용
+     */
+    public void updateOnlyItem(ItemQueryDto itemOnly) {
+        this.brandName = itemOnly.getBrandName();
+        this.itemName = itemOnly.getItemName();
+        this.price = itemOnly.getPrice();
+        this.stockQuantity = itemOnly.getStockQuantity();
     }
 }

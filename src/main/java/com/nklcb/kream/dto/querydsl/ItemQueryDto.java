@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class ItemQueryDto {
 
     private LocalDateTime updateDate;
 
+    private MultipartFile file;
+
     private String uploadFileName;
 
     private String storeFileName;
@@ -38,6 +41,15 @@ public class ItemQueryDto {
     private String filePath;
 
     private List<MultipartFile> files;
+
+
+    public ItemQueryDto updateItem(UploadFile uploadFile){
+        this.uploadFileName = uploadFile.getUploadFileName();
+        this.storeFileName = uploadFile.getStoreFileName();
+        this.filePath = uploadFile.getFilePath();
+
+        return this;
+    }
 
 
     @QueryProjection

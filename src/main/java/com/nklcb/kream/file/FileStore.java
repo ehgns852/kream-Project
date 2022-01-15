@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -40,9 +41,9 @@ public class FileStore {
     }
 
 
-    public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
+    public UploadFile storeFile(@RequestParam(required = false) MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {
-            return  null;
+            return null;
         }
 
         String originalFilename = multipartFile.getOriginalFilename();

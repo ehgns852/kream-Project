@@ -1,6 +1,5 @@
 package com.nklcb.kream.service;
 
-import com.nklcb.kream.dto.ItemDto;
 import com.nklcb.kream.dto.querydsl.ItemQueryDto;
 import com.nklcb.kream.entity.item.Item;
 import com.nklcb.kream.repository.ItemRepository;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -62,7 +60,21 @@ public class ItemService {
     }
 
 
+    /**
+     * Item + UploadFile 수정시 사용
+     */
+    @Transactional
+    public void updateItem(ItemQueryDto item) throws Exception {
+        Item findItem = itemRepository.findById(item.getId()).orElseThrow(Exception::new);
+        findItem.updateItem(item);
+    }
 
-
-
+    /**
+     * uploadFile 변경x  Only Item Entity 수정시 사용
+     */
+    @Transactional
+    public void updateOnlyItem(ItemQueryDto itemOnly) throws Exception {
+        Item item = findById(itemOnly.getId()).orElseThrow(Exception::new);
+        item.updateOnlyItem(itemOnly);
+    }
 }
