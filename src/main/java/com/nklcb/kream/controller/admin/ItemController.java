@@ -100,6 +100,13 @@ public class ItemController {
     }
 
 
+    @ResponseBody
+    @GetMapping("/image/{filename}")
+    public Resource showImage(@PathVariable String filename) throws MalformedURLException {
+        log.info("in Resource image");
+        return new UrlResource("file:" + fileStore.getFullPath(filename));
+    }
+
 
     /**
      * uploadFile이 null이 아니라면 updateQuery, 있다면 uploadFile을 제외한 entity update
