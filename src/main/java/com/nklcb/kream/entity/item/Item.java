@@ -78,6 +78,7 @@ public class Item {
         this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.stockQuantity = item.getStockQuantity();
+        this.updateDate = LocalDateTime.now();
         if (this.attachFile == null) {
             this.attachFile = new UploadFile(item.getUploadFileName(), item.getStoreFileName(), item.getFilePath());
         } else {

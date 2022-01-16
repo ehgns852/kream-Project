@@ -8,6 +8,8 @@ import com.nklcb.kream.file.FileStore;
 import com.nklcb.kream.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -57,6 +60,80 @@ public class ItemController {
      */
     @GetMapping("/uploadItem")
     public String uploadPage(@RequestParam(required = false) Long id, Model model) throws Exception {
+        getItem(id, model);
+        log.info("GET uploadPage");
+        return "item/uploadItem";
+    }
+
+
+
+
+
+    /**
+     * 상품 등록
+     */
+    @PostMapping("/uploadItem")
+    public String addItem(@ModelAttribute(name = "item") @Valid ItemDto itemDto, BindingResult bindingResult,
+                          ItemQueryDto itemQueryDto) throws Exception {
+
+        log.info("POST uploadPage");
+
+        if (bindingResult.hasErrors()) {
+            log.info("itemDto = {}", itemDto);
+            return "/item/uploadItem";
+        }
+        log.info("itemDto.id = {}", itemDto.getId());
+
+        UploadFile uploadFile = fileStore.storeFile(itemDto.getFile());
+
+        if (itemDto.getId() == null) {
+            Item newItem = buildItem(itemDto, uploadFile);
+            log.info("newItem = {}", newItem);
+            itemService.save(newItem);
+            log.info("item save success");
+        } else{
+            updateItem(itemQueryDto, uploadFile);
+        }
+
+
+        return "redirect:/admin/productManagement";
+    }
+
+
+
+    /**
+     * uploadFile이 null이 아니라면 updateQuery, 있다면 uploadFile을 제외한 entity update
+     */
+    private void updateItem(ItemQueryDto itemQueryDto, UploadFile uploadFile) throws Exception {
+        if (uploadFile != null) {
+            log.info("uploadFile = {}", uploadFile);
+            ItemQueryDto updateItem = itemQueryDto.updateItem(uploadFile);
+            log.info("updateItem = {}", updateItem);
+            itemService.updateItem(updateItem);
+        } else {
+            itemService.updateOnlyItem(itemQueryDto);
+        }
+    }
+
+
+    /**
+     * id가 null 이라면 새로운 item 생성
+     */
+    private Item buildItem(ItemDto itemDto, UploadFile uploadFile) {
+        Item newItem = Item.builder()
+                .brandName(itemDto.getBrandName())
+                .itemName(itemDto.getItemName()).price(itemDto.getPrice())
+                .stockQuantity(itemDto.getStockQuantity())
+                .createDate(LocalDateTime.now())
+                .attachFile(uploadFile)
+                .build();
+        return newItem;
+    }
+
+    /**
+     * id의 null 검증 후 model에 각각 반환
+     */
+    private void getItem(Long id, Model model) {
         if (id == null) {
             ItemQueryDto item = new ItemQueryDto();
             model.addAttribute("item", item);
@@ -66,55 +143,6 @@ public class ItemController {
             log.info("findItem = {}", findItem);
             model.addAttribute("item", findItem);
         }
-        log.info("GET uploadPage");
-        return "item/uploadItem";
     }
 
-
-    /**
-     * 상품 등록
-     */
-    @PostMapping("/uploadItem")
-    public String addItem(@ModelAttribute(name = "item") @Valid ItemDto itemDto, BindingResult bindingResult,
-                          ItemQueryDto itemQueryDto) throws Exception {
-        log.info("POST uploadPage");
-
-        if (bindingResult.hasErrors()) {
-            log.info("itemDto = {}", itemDto);
-            return "/item/uploadItem";
-        }
-
-        log.info("itemDto.id = {}", itemDto.getId());
-
-
-        if (itemDto.getId() == null) {
-            UploadFile uploadFile = fileStore.storeFile(itemDto.getFile());
-            Item newItem = Item.builder()
-                    .brandName(itemDto.getBrandName())
-                    .itemName(itemDto.getItemName()).price(itemDto.getPrice())
-                    .stockQuantity(itemDto.getStockQuantity())
-                    .createDate(LocalDateTime.now())
-                    .attachFile(uploadFile)
-                    .build();
-
-            log.info("newItem = {}", newItem);
-            itemService.save(newItem);
-
-            log.info("item save success");
-
-        } else{
-            UploadFile uploadFile = fileStore.storeFile(itemQueryDto.getFile());
-            if (uploadFile != null) {
-                log.info("uploadFile = {}",uploadFile);
-                ItemQueryDto updateItem = itemQueryDto.updateItem(uploadFile);
-                log.info("updateItem = {}", updateItem);
-                itemService.updateItem(updateItem);
-            } else {
-                itemService.updateOnlyItem(itemQueryDto);
-            }
-        }
-
-
-        return "redirect:/admin/productManagement";
-    }
 }
