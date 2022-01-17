@@ -27,6 +27,10 @@ public class FileStore {
         return fileDir + filename;
     }
 
+
+    /**
+     * 여러개 이미지 파일
+     */
     public List<UploadFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
 
         List<UploadFile> storeFileResult = new ArrayList<>();
@@ -41,6 +45,10 @@ public class FileStore {
     }
 
 
+    /**
+     * @param multipartFile
+     * UploadFile originalName, DB 저장 UUID, 파일경로
+     */
     public UploadFile storeFile(@RequestParam(required = false) MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {
             return null;

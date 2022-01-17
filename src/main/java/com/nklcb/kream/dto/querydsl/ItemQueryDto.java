@@ -40,7 +40,6 @@ public class ItemQueryDto {
 
     private String filePath;
 
-    private List<MultipartFile> files;
 
 
     public ItemQueryDto updateItem(UploadFile uploadFile){

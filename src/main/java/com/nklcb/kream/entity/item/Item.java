@@ -1,5 +1,6 @@
 package com.nklcb.kream.entity.item;
 
+import com.nklcb.kream.dto.ItemDto;
 import com.nklcb.kream.dto.querydsl.ItemQueryDto;
 import lombok.*;
 
@@ -73,7 +74,7 @@ public class Item {
      * Item + UploadFile 수정시 사용
      * 기존 파일이 없다면 -> 새로 생성하여 저장
      */
-    public void updateItem(ItemQueryDto item) {
+    public void updateItem(ItemDto item) {
         this.brandName = item.getBrandName();
         this.itemName = item.getItemName();
         this.price = item.getPrice();
@@ -90,7 +91,7 @@ public class Item {
     /**
      * uploadFile 변경x  Only Item Entity 수정시 사용
      */
-    public void updateOnlyItem(ItemQueryDto itemOnly) {
+    public void updateOnlyItem(ItemDto itemOnly) {
         this.brandName = itemOnly.getBrandName();
         this.itemName = itemOnly.getItemName();
         this.price = itemOnly.getPrice();

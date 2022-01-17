@@ -73,13 +73,13 @@ public class ItemController {
      * 상품 등록
      */
     @PostMapping("/uploadItem")
-    public String addItem(@ModelAttribute(name = "item") @Valid ItemDto itemDto, BindingResult bindingResult,
-                          ItemQueryDto itemQueryDto) throws Exception {
+    public String addItem(@ModelAttribute(name = "item") @Valid ItemDto itemDto, BindingResult bindingResult) throws Exception {
 
         log.info("POST uploadPage");
 
         if (bindingResult.hasErrors()) {
             log.info("itemDto = {}", itemDto);
+            log.info("hasError = {}", bindingResult.hasErrors());
             return "/item/uploadItem";
         }
         log.info("itemDto.id = {}", itemDto.getId());
@@ -92,7 +92,8 @@ public class ItemController {
             itemService.save(newItem);
             log.info("item save success");
         } else{
-            updateItem(itemQueryDto, uploadFile);
+            updateItem(itemDto, uploadFile);
+            log.info("updateItem");
         }
 
 
@@ -100,25 +101,31 @@ public class ItemController {
     }
 
 
+    /**
+     * 상품 업로드시 렌더링 경로 controller
+     */
     @ResponseBody
     @GetMapping("/image/{filename}")
     public Resource showImage(@PathVariable String filename) throws MalformedURLException {
         log.info("in Resource image");
-        return new UrlResource("file:" + fileStore.getFullPath(filename));
+        if (!filename.equals("null")) {
+            return new UrlResource("file:" + fileStore.getFullPath(filename));
+        }
+        return new UrlResource("https://dummyimage.com/600x700/dee2e6/6c757d.jpg");
     }
 
 
     /**
      * uploadFile이 null이 아니라면 updateQuery, 있다면 uploadFile을 제외한 entity update
      */
-    private void updateItem(ItemQueryDto itemQueryDto, UploadFile uploadFile) throws Exception {
+    private void updateItem(ItemDto itemDto, UploadFile uploadFile) throws Exception {
         if (uploadFile != null) {
             log.info("uploadFile = {}", uploadFile);
-            ItemQueryDto updateItem = itemQueryDto.updateItem(uploadFile);
+            ItemDto updateItem = itemDto.updateItem(uploadFile);
             log.info("updateItem = {}", updateItem);
-            itemService.updateItem(updateItem);
+            itemService.updateItem(itemDto);
         } else {
-            itemService.updateOnlyItem(itemQueryDto);
+            itemService.updateOnlyItem(itemDto);
         }
     }
 
@@ -142,7 +149,8 @@ public class ItemController {
      */
     private void getItem(Long id, Model model) {
         if (id == null) {
-            ItemQueryDto item = new ItemQueryDto();
+            ItemDto item = new ItemDto();
+            log.info("new ItemDto = {}", item);
             model.addAttribute("item", item);
         } else {
             ItemQueryDto findItem = itemService.findByIdDto(id);
