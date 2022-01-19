@@ -60,7 +60,7 @@ public class ItemController {
      */
     @GetMapping("/uploadItem")
     public String uploadPage(@RequestParam(required = false) Long id, Model model) throws Exception {
-        getItem(id, model);
+        itemService.getItem(id, model);
         log.info("GET uploadPage");
         return "item/uploadItem";
     }
@@ -73,9 +73,10 @@ public class ItemController {
      * 상품 등록
      */
     @PostMapping("/uploadItem")
-    public String addItem(@ModelAttribute(name = "item") @Valid ItemDto itemDto, BindingResult bindingResult) throws Exception {
+    public String addItem(@ModelAttribute(name = "item") @Valid ItemDto itemDto, BindingResult bindingResult,Model model) throws Exception {
 
         log.info("POST uploadPage");
+        log.info("itemDto.getFile = {}", itemDto.getFile());
 
         if (bindingResult.hasErrors()) {
             log.info("itemDto = {}", itemDto);
@@ -92,7 +93,7 @@ public class ItemController {
             itemService.save(newItem);
             log.info("item save success");
         } else{
-            updateItem(itemDto, uploadFile);
+            itemService.updateItem(itemDto, uploadFile);
             log.info("updateItem");
         }
 
@@ -116,21 +117,6 @@ public class ItemController {
 
 
     /**
-     * uploadFile이 null이 아니라면 updateQuery, 있다면 uploadFile을 제외한 entity update
-     */
-    private void updateItem(ItemDto itemDto, UploadFile uploadFile) throws Exception {
-        if (uploadFile != null) {
-            log.info("uploadFile = {}", uploadFile);
-            ItemDto updateItem = itemDto.updateItem(uploadFile);
-            log.info("updateItem = {}", updateItem);
-            itemService.updateItem(itemDto);
-        } else {
-            itemService.updateOnlyItem(itemDto);
-        }
-    }
-
-
-    /**
      * id가 null 이라면 새로운 item 생성
      */
     private Item buildItem(ItemDto itemDto, UploadFile uploadFile) {
@@ -144,20 +130,6 @@ public class ItemController {
         return newItem;
     }
 
-    /**
-     * id의 null 검증 후 model에 각각 반환
-     */
-    private void getItem(Long id, Model model) {
-        if (id == null) {
-            ItemDto item = new ItemDto();
-            log.info("new ItemDto = {}", item);
-            model.addAttribute("item", item);
-        } else {
-            ItemQueryDto findItem = itemService.findByIdDto(id);
 
-            log.info("findItem = {}", findItem);
-            model.addAttribute("item", findItem);
-        }
-    }
 
 }

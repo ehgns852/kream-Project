@@ -74,16 +74,16 @@ public class Item {
      * Item + UploadFile 수정시 사용
      * 기존 파일이 없다면 -> 새로 생성하여 저장
      */
-    public void updateItem(ItemDto item) {
+    public void updateItem(ItemDto item, UploadFile uploadFile) {
         this.brandName = item.getBrandName();
         this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.stockQuantity = item.getStockQuantity();
         this.updateDate = LocalDateTime.now();
         if (this.attachFile == null) {
-            this.attachFile = new UploadFile(item.getUploadFileName(), item.getStoreFileName(), item.getFilePath());
+            this.attachFile = new UploadFile(uploadFile.getUploadFileName(), uploadFile.getStoreFileName(), uploadFile.getFilePath());
         } else {
-            getAttachFile().updateUploadFile(item.getUploadFileName(), item.getStoreFileName(), item.getFilePath());
+            getAttachFile().updateUploadFile(uploadFile.getUploadFileName(), uploadFile.getStoreFileName(), uploadFile.getFilePath());
         }
 
     }

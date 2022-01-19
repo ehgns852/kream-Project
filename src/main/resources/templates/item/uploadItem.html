@@ -50,15 +50,22 @@
 
                                 <div class="col-12">
                                     <label for="itemName" class="col-form-label">상품명</label>
-                                    <input type="text" id="itemName" th:field="*{itemName}" class="form-control">
+                                    <input type="text" id="itemName" class="form-control" th:classappend="${#fields.hasErrors('itemName')} ? 'is-invalid'" th:field="*{itemName}">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}">
+                                    </div>
                                 </div>
                                 <div class="col-12">
                                 <label for="price" class="col-form-label">가격</label>
-                                    <input type="text" id="price" th:field="*{price}" class="form-control">
+                                    <input type="text" id="price" class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" th:field="*{price}">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
+                                    </div>
+
                                 </div>
                                 <div class="col-12">
                                 <label for="stockQuantity" class="col-form-label">재고수량</label>
-                                    <input type="text" id="stockQuantity" th:field="*{stockQuantity}" class="form-control">
+                                    <input type="text" id="stockQuantity" class="form-control" th:classappend="${#fields.hasErrors('stockQuantity')} ? 'is-invalid'" th:field="*{stockQuantity}">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}">
+                                    </div>
                                 </div>
 
                                 <div class="col-12">

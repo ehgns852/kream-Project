@@ -28,20 +28,20 @@ public class ItemDto {
 
     private Long id;
 
-    @NotNull(message = "브랜드명을 입력해 주세요.")
-    @Length(min = 2, max = 20)
+    @NotNull
+    @Length(min = 2, max = 20, message = "길이가 2자에서 20자 사이여야 합니다.")
     private String brandName;
 
-    @NotNull(message = "상품 이름을 입력해 주세요.")
-    @Length(min = 2, max = 20)
+    @NotNull
+    @Length(min = 2, max = 20, message = "길이가 2자에서 20자 사이여야 합니다.")
     private String itemName;
 
     @NotNull
-    @Range(min = 1000, max = 1000000)
+    @Range(min = 1000, max = 1000000, message = "최소 금액이 1000원에서 최대 금액 1000000원 사이여아 합니다.")
     private int price;
 
-    @NotNull
-    @Max(9999)
+    @NotNull(message = "재고수량을 입력해 주세요.")
+    @Range(min = 1, max = 9999,message = "최소 수량 1개에서 최대 수량 9999개 까지입니다.")
     private int stockQuantity;
 
     @DateTimeFormat(pattern = "yyyy-mm-dd")

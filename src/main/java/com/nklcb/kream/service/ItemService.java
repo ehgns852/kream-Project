@@ -3,17 +3,21 @@ package com.nklcb.kream.service;
 import com.nklcb.kream.dto.ItemDto;
 import com.nklcb.kream.dto.querydsl.ItemQueryDto;
 import com.nklcb.kream.entity.item.Item;
+import com.nklcb.kream.entity.item.UploadFile;
 import com.nklcb.kream.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class ItemService {
 
@@ -62,20 +66,33 @@ public class ItemService {
 
 
     /**
-     * Item + UploadFile 수정시 사용
+     * id의 null 검증 후 model에 각각 반환
      */
-    @Transactional
-    public void updateItem(ItemDto item) throws Exception {
-        Item findItem = itemRepository.findById(item.getId()).orElseThrow(Exception::new);
-        findItem.updateItem(item);
+    public void getItem(Long id, Model model) {
+        if (id == null) {
+            ItemDto item = new ItemDto();
+            log.info("new ItemDto = {}", item);
+            model.addAttribute("item", item);
+        } else {
+            ItemQueryDto findItem = findByIdDto(id);
+
+            log.info("findItem = {}", findItem);
+            model.addAttribute("item", findItem);
+        }
     }
 
     /**
-     * uploadFile 변경x  Only Item Entity 수정시 사용
+     * uploadFile이 null이 아니라면 updateQuery, 있다면 uploadFile을 제외한 entity update
+     * Item + UploadFile 수정시 사용
      */
     @Transactional
-    public void updateOnlyItem(ItemDto itemOnly) throws Exception {
-        Item item = findById(itemOnly.getId()).orElseThrow(Exception::new);
-        item.updateOnlyItem(itemOnly);
+    public void updateItem(ItemDto itemDto, UploadFile uploadFile) throws Exception {
+        Item findItem = findById(itemDto.getId()).orElseThrow(Exception::new);
+        if (uploadFile != null) {
+            findItem.updateItem(itemDto,uploadFile);
+        } else {
+            findItem.updateOnlyItem(itemDto);
+        }
     }
+
 }
