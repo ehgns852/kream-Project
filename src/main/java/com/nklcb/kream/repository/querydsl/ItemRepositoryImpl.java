@@ -70,4 +70,33 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .fetchOne();
     }
 
+    @Override
+    public Page<ItemQueryDto> findBestItem(Pageable pageable) {
+        List<ItemQueryDto> content = queryFactory
+                .select(new QItemQueryDto(
+                        item.id,
+                        item.brandName,
+                        item.itemName,
+                        item.price,
+                        item.stockQuantity,
+                        item.createDate,
+                        uploadFile.uploadFileName,
+                        uploadFile.storeFileName,
+                        uploadFile.filePath))
+                .from(item)
+                .leftJoin(item.attachFile, uploadFile)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(item.id.desc())
+                .fetch();
+
+        long countQuery = queryFactory
+                .selectFrom(item)
+                .leftJoin(item.attachFile, uploadFile)
+                .fetchCount();
+
+        return PageableExecutionUtils.getPage(content, pageable, () -> countQuery);
+    }
+
+
 }

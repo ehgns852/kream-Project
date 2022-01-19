@@ -20,4 +20,6 @@ public interface ItemRepositoryCustom {
      */
     ItemQueryDto findByIdDto(Long id);
 
+
+    Page<ItemQueryDto> findBestItem(Pageable pageable);
 }

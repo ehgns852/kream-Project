@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -93,6 +94,25 @@ public class ItemService {
         } else {
             findItem.updateOnlyItem(itemDto);
         }
+    }
+
+        /**
+         * id가 null 이라면 새로운 item 생성
+         */
+    @Transactional
+    public Item buildItem(ItemDto itemDto, UploadFile uploadFile) {
+            return Item.builder()
+                    .brandName(itemDto.getBrandName())
+                    .itemName(itemDto.getItemName()).price(itemDto.getPrice())
+                    .stockQuantity(itemDto.getStockQuantity())
+                    .createDate(LocalDateTime.now())
+                    .attachFile(uploadFile)
+                    .build();
+        }
+
+
+    public Page<ItemQueryDto> findBestItem(Pageable pageable) {
+        return itemRepository.findBestItem(pageable);
     }
 
 }

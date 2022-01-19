@@ -88,7 +88,7 @@ public class ItemController {
         UploadFile uploadFile = fileStore.storeFile(itemDto.getFile());
 
         if (itemDto.getId() == null) {
-            Item newItem = buildItem(itemDto, uploadFile);
+            Item newItem = itemService.buildItem(itemDto, uploadFile);
             log.info("newItem = {}", newItem);
             itemService.save(newItem);
             log.info("item save success");
@@ -116,19 +116,7 @@ public class ItemController {
     }
 
 
-    /**
-     * id가 null 이라면 새로운 item 생성
-     */
-    private Item buildItem(ItemDto itemDto, UploadFile uploadFile) {
-        Item newItem = Item.builder()
-                .brandName(itemDto.getBrandName())
-                .itemName(itemDto.getItemName()).price(itemDto.getPrice())
-                .stockQuantity(itemDto.getStockQuantity())
-                .createDate(LocalDateTime.now())
-                .attachFile(uploadFile)
-                .build();
-        return newItem;
-    }
+
 
 
 
