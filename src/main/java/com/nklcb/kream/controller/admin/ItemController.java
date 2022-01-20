@@ -115,9 +115,4 @@ public class ItemController {
         return new UrlResource("https://dummyimage.com/600x700/dee2e6/6c757d.jpg");
     }
 
-
-
-
-
-
 }

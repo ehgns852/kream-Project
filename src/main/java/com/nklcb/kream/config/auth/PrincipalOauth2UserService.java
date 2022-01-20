@@ -93,7 +93,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                    .enabled(true)
                    .build();
 
-            log.info("PrincipalOauth2 userEntity = {]", userEntity);
+            log.info("PrincipalOauth2 userEntity = {}", userEntity);
 
            userRepository.save(userEntity);
            List<String> collect = userEntityGetPrincipal(userEntity);

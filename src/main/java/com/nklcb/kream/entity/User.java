@@ -15,7 +15,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @NoArgsConstructor
 @Getter
-@Setter
 @ToString(of = {"id", "username", "password", "enabled","email","provider","providerId","createDate"})
 @Slf4j
 public class User {

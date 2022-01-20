@@ -5,7 +5,6 @@ import com.nklcb.kream.dto.UserDto;
 import com.nklcb.kream.entity.Role;
 import com.nklcb.kream.entity.User;
 import com.nklcb.kream.entity.UserRole;
-import com.nklcb.kream.form.UserForm;
 import com.nklcb.kream.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -80,15 +79,15 @@ public class UserService {
      * User, Board join
      * V1
      */
-    public List<UserForm> findUserAndBoard() {
+    public List<UserDto> findUserAndBoard() {
 
         //User, Board fetch join
         List<User> findUser = userRepository.findAllByWithBoardV1();
         log.info("findAllByWithBoard");
 
         //User 리스트를 DTO로 변환후 리스트로 반환
-        List<UserForm> collect = findUser.stream()
-                .map(user -> new UserForm(user))
+        List<UserDto> collect = findUser.stream()
+                .map(user -> new UserDto(user))
                 .collect(Collectors.toList());
 
         return collect;

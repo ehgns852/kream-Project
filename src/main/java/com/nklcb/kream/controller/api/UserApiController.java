@@ -3,7 +3,6 @@ package com.nklcb.kream.controller.api;
 import com.nklcb.kream.dto.UserBoardDto;
 import com.nklcb.kream.dto.UserDto;
 import com.nklcb.kream.entity.User;
-import com.nklcb.kream.form.UserForm;
 import com.nklcb.kream.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +29,7 @@ public class UserApiController {
      */
     @GetMapping("/users/v1")
     public Result allV1() {
-        List<UserForm> userAndBoard = userService.findUserAndBoard();
+        List<UserDto> userAndBoard = userService.findUserAndBoard();
         log.info("userService - userAndBoard");
 
         return new Result(userAndBoard.size(),userAndBoard);
@@ -59,9 +58,7 @@ public class UserApiController {
 
         User createUser = User.createApiUser(user.getUsername(), user.getPassword(), user.getEmail());
         userService.adminJoin(createUser);
-        UserDto userDto = new UserDto(createUser);
-
-        return userDto;
+        return UserDto.createUser(createUser);
     }
 
 

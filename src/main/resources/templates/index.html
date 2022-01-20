@@ -2,6 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/common :: head('KREAM | 한정판 거래의 FLEX')">
+    <link rel="stylesheet" href="/_nuxt/css/5a9e473.css">
+    <link rel="stylesheet" href="/_nuxt/css/63d23cd.css">
+    <link rel="stylesheet" href="/_nuxt/css/102ecda.css">
+    <link rel="stylesheet" href="/_nuxt/css/065a863.css">
+    <link rel="stylesheet" href="/_nuxt/css/9359be1.css">
+    <link rel="stylesheet" href="/_nuxt/css/20a2a73.css">
+    <link rel="stylesheet" href="/_nuxt/css/6351a54.css">
+    <link rel="stylesheet" href="/_nuxt/css/bff66df.css">
 
         <title>KREAM | 한정판 거래의 FLEX</title>
 </head>
@@ -19,13 +27,18 @@
             </div>
         </header>
         <!-- Section-->
+    <div class="product_title mo" data-v-b71614ae>
+    <div class="title" data-v-b71614ae>New In</div>
+    <div class="sub_title" data-v-b71614ae>신규 등록 상품</div>
+    </div>
+
         <section class="py-5" th:each="item : ${items}">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
-                            <img class="card-img-top" th:src="|@{/home/image}/${item.getStoreFileName()}|" />
+                            <img class="card-img-top" th:if="${item.getStoreFileName()}" th:src="|@{/home/image}/${item.getStoreFileName()}|" />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-left" th:text="${item.brandName}">
@@ -44,7 +57,12 @@
                             </div>
                         </div>
                     </div>
-<!--                    <div class="col mb-5">-->
+                </div>
+            </div>
+
+        </section>
+
+    <!--                        <div class="col mb-5">-->
 <!--                        <div class="card h-100">-->
 <!--                            &lt;!&ndash; Sale badge&ndash;&gt;-->
 <!--                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>-->
@@ -223,9 +241,7 @@
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-        </section>
     <footer th:replace="fragments/common :: footer">
     </footer>
-
     </body>
 </html>
