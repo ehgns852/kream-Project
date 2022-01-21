@@ -45,8 +45,8 @@ public class ItemService {
     /**
      * 상품 수정 시  @PathVariable id  조회
      */
-    public Optional<Item> findById(Long id){
-        return itemRepository.findById(id);
+    public Item findById(Long id) throws Exception {
+        return itemRepository.findById(id).orElseThrow(Exception::new);
     }
 
     /**
@@ -88,7 +88,7 @@ public class ItemService {
      */
     @Transactional
     public void updateItem(ItemDto itemDto, UploadFile uploadFile) throws Exception {
-        Item findItem = findById(itemDto.getId()).orElseThrow(Exception::new);
+        Item findItem = findById(itemDto.getId());
         if (uploadFile != null) {
             findItem.updateItem(itemDto,uploadFile);
         } else {

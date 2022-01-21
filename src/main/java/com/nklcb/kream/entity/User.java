@@ -3,6 +3,8 @@ package com.nklcb.kream.entity;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -36,6 +38,7 @@ public class User {
 
     private String provider;
     private String providerId;
+
     private LocalDateTime createDate;
 
     @OneToMany(mappedBy = "user",cascade = ALL)

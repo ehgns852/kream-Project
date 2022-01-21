@@ -18,7 +18,7 @@
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-6">
                         <img class="card-img-top mb-5 mb-md-0" th:if="${item.id == null}" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg"/>
-                            <img class="card-img-top mb-5 mb-md-0" th:if="${item.id != null}" th:src="|@{/admin/image}/${item.getStoreFileName()}|" />
+                            <img class="card-img-top mb-5 mb-md-0" th:if="${item.id != null}" th:src="|@{/image}/${item.getStoreFileName()}|" />
                     </div>
                     <div class="col-md-6">
                         <div class="small mb-1">관리자 페이지</div>

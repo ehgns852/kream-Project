@@ -102,17 +102,4 @@ public class ItemController {
     }
 
 
-    /**
-     * 상품 업로드시 렌더링 경로 controller
-     */
-    @ResponseBody
-    @GetMapping("/image/{filename}")
-    public Resource showImage(@PathVariable String filename) throws MalformedURLException {
-        log.info("in Resource image");
-        if (!filename.equals("null")) {
-            return new UrlResource("file:" + fileStore.getFullPath(filename));
-        }
-        return new UrlResource("https://dummyimage.com/600x700/dee2e6/6c757d.jpg");
-    }
-
 }

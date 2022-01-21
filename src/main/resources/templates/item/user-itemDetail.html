@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head('KREAM | 한정판 거래의 FLEX')">
+
+    <title>상품 상세</title>
+
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('ItemDetail')">
+</nav>
+
+<!-- Product section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6">
+                <img class="card-img-top mb-5 mb-md-0" th:if="${item.getStoreFileName()}" th:src="|@{/image}/${item.getStoreFileName()}|" />
+            </div>
+            <div class="col-md-6">
+                <div class="small mb-1" th:text="${item.brandName}">브랜드 명</div>
+                <h1 class="display-5 fw-bolder">
+                    <span>상품 상세</span>
+                </h1>
+                <div class="fs-5 mb-5"></div>
+
+                <form th:action="@{/admin/uploadItem}" method="post" th:object="${item}" enctype="multipart/form-data">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-12">
+                            <label for="itemId" class="col-form-label">상품 번호</label>
+                            <input type="text" id="itemId" th:field="*{id}" class="form-control" readonly>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="brandName" class="col-form-label">브랜드명</label>
+                            <input type="text" id="brandName" class="form-control" th:classappend="${#fields.hasErrors('brandName')} ? 'is-invalid'" th:field="*{brandName}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('brandName')}" th:errors="*{brandName}">
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <label for="itemName" class="col-form-label">상품명</label>
+                            <input type="text" id="itemName" class="form-control" th:classappend="${#fields.hasErrors('itemName')} ? 'is-invalid'" th:field="*{itemName}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="price" class="col-form-label">가격</label>
+                            <input type="text" id="price" class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" th:field="*{price}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
+                            </div>
+
+                        </div>
+                        <div class="col-12">
+                            <label for="stockQuantity" class="col-form-label">재고수량</label>
+                            <input type="text" id="stockQuantity" class="form-control" th:classappend="${#fields.hasErrors('stockQuantity')} ? 'is-invalid'" th:field="*{stockQuantity}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="file" class="col-form-label" th:if="${item.id == null}">상품 이미지 업로드</label>
+                            <input class="form-control" type="file" th:if="${item.id == null}" id="file" th:field="*{file}">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="uploadFile" class="col-form-label" th:if="${item.id != null}">상품 이미지</label>
+                            <input class="form-control" type="file" th:if="${item.id != null}" id="uploadFile" th:field="*{file}">
+                        </div>
+                        <!--                                        <input class="form-control" type="file" id="file" multiple="multiple" th:field="*{file}">-->
+                    </div>
+
+                    <p><div class="col-12"></p>
+                    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                        <i class="bi bi-box"></i>
+                        저장하기
+                    </button>
+                    <a type="button" class="btn btn-primary" th:href="@{/admin/productManagement}">취소</a>
+                    <button type="button" th:if="*{id} != null" class="btn btn-danger" th:onclick="|deleteItem(*{id})|">삭제</button>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</body>
+
+<footer th:replace="fragments/common :: footer">
+</footer>
+</html>

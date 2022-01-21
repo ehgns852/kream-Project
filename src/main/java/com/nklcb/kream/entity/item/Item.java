@@ -3,6 +3,7 @@ package com.nklcb.kream.entity.item;
 import com.nklcb.kream.dto.ItemDto;
 import com.nklcb.kream.dto.querydsl.ItemQueryDto;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -59,6 +60,8 @@ public class Item {
         this.createDate = createDate;
         this.attachFile = attachFile;
     }
+
+
 
 
 
