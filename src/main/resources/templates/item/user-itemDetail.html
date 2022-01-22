@@ -27,10 +27,10 @@
 
                 <form th:action="@{/admin/uploadItem}" method="post" th:object="${item}" enctype="multipart/form-data">
                     <div class="row g-3 align-items-center">
-                        <div class="col-12">
-                            <label for="itemId" class="col-form-label">상품 번호</label>
-                            <input type="text" id="itemId" th:field="*{id}" class="form-control" readonly>
-                        </div>
+<!--                        <div class="col-12">-->
+<!--                            <label for="itemId" class="col-form-label">상품 번호</label>-->
+<!--                            <input type="text" id="itemId" th:field="*{id}" class="form-control" readonly>-->
+<!--                        </div>-->
 
                         <div class="col-12">
                             <label for="brandName" class="col-form-label">브랜드명</label>
@@ -60,15 +60,6 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <label for="file" class="col-form-label" th:if="${item.id == null}">상품 이미지 업로드</label>
-                            <input class="form-control" type="file" th:if="${item.id == null}" id="file" th:field="*{file}">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="uploadFile" class="col-form-label" th:if="${item.id != null}">상품 이미지</label>
-                            <input class="form-control" type="file" th:if="${item.id != null}" id="uploadFile" th:field="*{file}">
-                        </div>
                         <!--                                        <input class="form-control" type="file" id="file" multiple="multiple" th:field="*{file}">-->
                     </div>
 

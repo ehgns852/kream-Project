@@ -1,12 +1,10 @@
 package com.nklcb.kream.entity.item;
 
 import com.nklcb.kream.dto.ItemDto;
-import com.nklcb.kream.dto.querydsl.ItemQueryDto;
+import com.nklcb.kream.entity.embedded.TimeEntity;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
@@ -31,9 +29,8 @@ public class Item {
 
     private int stockQuantity;
 
-    private LocalDateTime createDate;
-
-    private LocalDateTime updateDate;
+    @Embedded
+    private TimeEntity timeEntity;
 
 
     @OneToOne(fetch = LAZY,cascade = CascadeType.ALL)
@@ -42,22 +39,20 @@ public class Item {
 
 
 
-    protected Item(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate) {
+    protected Item(String brandName, String itemName, int price, int stockQuantity) {
         this.brandName = brandName;
         this.itemName = itemName;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.createDate = createDate;
     }
 
 
     @Builder
-    public Item(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate, UploadFile attachFile) {
+    public Item(String brandName, String itemName, int price, int stockQuantity, UploadFile attachFile) {
         this.brandName = brandName;
         this.itemName = itemName;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.createDate = createDate;
         this.attachFile = attachFile;
     }
 
@@ -68,8 +63,8 @@ public class Item {
     /**
      * item 생성 팩토리 메서드
      */
-    public static Item addItem(String brandName, String itemName, int price, int stockQuantity, LocalDateTime createDate) {
-        return new Item(brandName, itemName, price, stockQuantity, createDate);
+    public static Item addItem(String brandName, String itemName, int price, int stockQuantity) {
+        return new Item(brandName, itemName, price, stockQuantity);
     }
 
 
@@ -82,7 +77,6 @@ public class Item {
         this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.stockQuantity = item.getStockQuantity();
-        this.updateDate = LocalDateTime.now();
         if (this.attachFile == null) {
             this.attachFile = new UploadFile(uploadFile.getUploadFileName(), uploadFile.getStoreFileName(), uploadFile.getFilePath());
         } else {

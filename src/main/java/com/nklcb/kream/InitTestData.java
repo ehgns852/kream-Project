@@ -62,7 +62,6 @@ public class InitTestData {
                     .brandName("nike" + i).itemName("air max" + i)
                     .price(20000)
                     .stockQuantity(100)
-                    .createDate(LocalDateTime.now())
                     .attachFile(null)
                     .build();
 

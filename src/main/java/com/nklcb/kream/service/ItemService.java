@@ -105,7 +105,6 @@ public class ItemService {
                     .brandName(itemDto.getBrandName())
                     .itemName(itemDto.getItemName()).price(itemDto.getPrice())
                     .stockQuantity(itemDto.getStockQuantity())
-                    .createDate(LocalDateTime.now())
                     .attachFile(uploadFile)
                     .build();
         }

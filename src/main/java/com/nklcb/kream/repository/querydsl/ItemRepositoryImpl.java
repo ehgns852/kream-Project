@@ -35,7 +35,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                         item.itemName,
                         item.price,
                         item.stockQuantity,
-                        item.createDate))
+                        item.timeEntity.createDate))
                 .from(item)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -60,7 +60,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                         item.itemName,
                         item.price,
                         item.stockQuantity,
-                        item.createDate,
+                        item.timeEntity.createDate,
                         uploadFile.uploadFileName,
                         uploadFile.storeFileName,
                         uploadFile.filePath))
@@ -79,7 +79,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                         item.itemName,
                         item.price,
                         item.stockQuantity,
-                        item.createDate,
+                        item.timeEntity.createDate,
                         uploadFile.uploadFileName,
                         uploadFile.storeFileName,
                         uploadFile.filePath))
