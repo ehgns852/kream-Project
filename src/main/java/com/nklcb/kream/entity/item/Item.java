@@ -1,20 +1,27 @@
 package com.nklcb.kream.entity.item;
 
 import com.nklcb.kream.dto.ItemDto;
+import com.nklcb.kream.entity.audit.AuditListener;
+import com.nklcb.kream.entity.audit.Auditable;
 import com.nklcb.kream.entity.embedded.TimeEntity;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.*;
-import static javax.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@EntityListeners(AuditListener.class)
 @ToString(of = {"id","brandName","itemName","price","stockQuantity","createDate"})
-public class Item {
+public class Item implements Auditable{
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -38,7 +45,6 @@ public class Item {
     private UploadFile attachFile;
 
 
-
     protected Item(String brandName, String itemName, int price, int stockQuantity) {
         this.brandName = brandName;
         this.itemName = itemName;
@@ -56,9 +62,15 @@ public class Item {
         this.attachFile = attachFile;
     }
 
-
-
-
+    @Builder
+    public Item(String brandName, String itemName, int price, int stockQuantity, TimeEntity timeEntity, UploadFile attachFile) {
+        this.brandName = brandName;
+        this.itemName = itemName;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.timeEntity = timeEntity;
+        this.attachFile = attachFile;
+    }
 
     /**
      * item 생성 팩토리 메서드
@@ -93,5 +105,13 @@ public class Item {
         this.itemName = itemOnly.getItemName();
         this.price = itemOnly.getPrice();
         this.stockQuantity = itemOnly.getStockQuantity();
+    }
+
+
+    /**
+     * AuditListener 생성 시간 자동 생성 및 변경
+     */
+    public void setTimeEntity(TimeEntity timeEntity) {
+        this.timeEntity = timeEntity;
     }
 }

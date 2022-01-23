@@ -3,6 +3,7 @@ package com.nklcb.kream;
 
 import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.User;
+import com.nklcb.kream.entity.embedded.TimeEntity;
 import com.nklcb.kream.entity.item.Item;
 import com.nklcb.kream.repository.RoleRepository;
 import com.nklcb.kream.service.BoardService;
@@ -34,7 +35,7 @@ public class InitTestData {
 
     @PostConstruct
     @Transactional
-    public void dataInit() {
+    public void dataInit() throws InterruptedException {
 
 
 
@@ -66,6 +67,8 @@ public class InitTestData {
                     .build();
 
             itemService.save(item);
+
+
         }
 
 
@@ -73,4 +76,5 @@ public class InitTestData {
 
 
     }
+
 

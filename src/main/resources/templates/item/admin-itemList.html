@@ -27,6 +27,8 @@
             <th scope="col">판매가격</th>
             <th scope="col">재고수량</th>
             <th scope="col">등록시간</th>
+            <th scope="col">수정시간</th>
+
         </tr>
         </thead>
         <tbody>
@@ -36,8 +38,8 @@
             <td th:text="${item.itemName}">상품명</td>
             <td th:text="${item.price}">판매가격</td>
             <td th:text="${item.stockQuantity}">재고수량</td>
-            <td th:text="${item.createDate}">등록시간</td>
-            <td th:text="${item.updateDate}">수정시간</td>
+            <td th:text="${#temporals.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">등록시간</td>
+            <td th:text="${item.updateDate}" th:if="${item.updateDate != null}">수정시간</td>
             <td><a type="button" class="btn btn-primary" th:href="@{/admin/uploadItem(id=${item.id})}">수정</a></td>
 
         </tr>
