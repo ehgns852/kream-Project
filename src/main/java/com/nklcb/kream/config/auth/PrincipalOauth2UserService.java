@@ -75,8 +75,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
        String password = passwordEncoder.encode(passwordEncode);
        String email = oauth2UserInfo.getEmail();
        UserRole userRole = UserRole.addRole(USER);
-       LocalDateTime createDate = LocalDateTime.now();
-
 
         User userEntity = userRepository.findByUsername(username);
 
@@ -89,7 +87,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                    .provider(provider)
                    .providerId(providerId)
                    .userRole(userRole)
-                   .createDate(createDate)
                    .enabled(true)
                    .build();
 

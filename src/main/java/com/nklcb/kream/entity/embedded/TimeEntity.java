@@ -1,5 +1,6 @@
 package com.nklcb.kream.entity.embedded;
 
+import com.nklcb.kream.entity.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EntityListeners;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -22,5 +24,6 @@ public class TimeEntity{
     private LocalDateTime createDate;
 
     private LocalDateTime updateDate;
+
 
 }

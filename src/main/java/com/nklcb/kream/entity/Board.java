@@ -1,5 +1,8 @@
 package com.nklcb.kream.entity;
 
+import com.nklcb.kream.entity.audit.AuditListener;
+import com.nklcb.kream.entity.audit.Auditable;
+import com.nklcb.kream.entity.embedded.TimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +17,8 @@ import static javax.persistence.FetchType.*;
 @Getter
 @ToString(of = {"id, title, content, createDate"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Board {
+@EntityListeners(AuditListener.class)
+public class Board implements Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +29,9 @@ public class Board {
     private String title;
     private String content;
 
-    private LocalDateTime createDate;
+    @Embedded
+    private TimeEntity timeEntity;
+
 
 
     @ManyToOne(fetch = LAZY)
@@ -33,14 +39,13 @@ public class Board {
     private User user;
 
 
-    protected Board(String title, String content, LocalDateTime localDateTime) {
+    protected Board(String title, String content) {
         this.title = title;
         this.content = content;
-        this.createDate = localDateTime;
     }
 
-    public static Board createBoard(String title, String content, LocalDateTime localDateTime) {
-        Board board = new Board(title, content, localDateTime);
+    public static Board createBoard(String title, String content) {
+        Board board = new Board(title, content);
 
         return board;
     }
@@ -55,4 +60,12 @@ public class Board {
     }
 
 
+    /**
+     *
+     * @PrePersist TimeEntity
+     */
+    @Override
+    public void setTimeEntity(TimeEntity timeEntity) {
+        this.timeEntity = timeEntity;
+    }
 }

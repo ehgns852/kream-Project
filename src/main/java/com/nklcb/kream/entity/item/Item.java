@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -52,15 +51,6 @@ public class Item implements Auditable{
         this.stockQuantity = stockQuantity;
     }
 
-
-    @Builder
-    public Item(String brandName, String itemName, int price, int stockQuantity, UploadFile attachFile) {
-        this.brandName = brandName;
-        this.itemName = itemName;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-        this.attachFile = attachFile;
-    }
 
     @Builder
     public Item(String brandName, String itemName, int price, int stockQuantity, TimeEntity timeEntity, UploadFile attachFile) {

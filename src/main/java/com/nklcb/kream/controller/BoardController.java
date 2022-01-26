@@ -81,7 +81,7 @@ public class BoardController {
 
         String username = AuthenticationName(authentication);
 
-        Board board = Board.createBoard(boardForm.getTitle(), boardForm.getContent(), LocalDateTime.now());
+        Board board = Board.createBoard(boardForm.getTitle(), boardForm.getContent());
 
         boardService.save(username,board);
 

@@ -2,14 +2,8 @@ package com.nklcb.kream.entity.audit;
 
 import com.nklcb.kream.entity.embedded.TimeEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.auditing.AuditingHandler;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
 
-import javax.persistence.EntityListeners;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
@@ -22,6 +16,9 @@ import java.time.LocalDateTime;
 @Configuration
 public class AuditListener {
 
+    /**
+     * Persist 전에 실행
+     */
     @PrePersist
     public void setCreateDate(Auditable auditable) {
         TimeEntity timeEntity = auditable.getTimeEntity();
@@ -35,6 +32,9 @@ public class AuditListener {
     }
 
 
+    /**
+     * Update 전에 실행
+     */
     @PreUpdate
     public void setUpdateDate(Auditable auditable) {
         TimeEntity timeEntity = auditable.getTimeEntity();

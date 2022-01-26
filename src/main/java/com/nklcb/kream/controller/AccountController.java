@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccountController {
 
     private final UserService userService;
-    private final UserRoleRepository userRoleRepository;
-    private final RoleRepository roleRepository;
 
     @GetMapping("/login")
     public String login() {

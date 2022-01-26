@@ -1,7 +1,6 @@
 package com.nklcb.kream.dto;
 
 
-import com.nklcb.kream.entity.Board;
 import com.nklcb.kream.entity.User;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +8,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +62,7 @@ public class UserDto {
         this.password = user.getPassword();
         this.enabled = user.isEnabled();
         this.email = user.getEmail();
-        this.createUserDate = user.getCreateDate();
+        this.createUserDate = user.getTimeEntity().getCreateDate();
         this.boards = user.getBoards()
                 .stream()
                 .map(board -> new BoardDto(board))
@@ -87,7 +85,7 @@ public class UserDto {
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .email(user.getEmail())
-                .createUserDate(user.getCreateDate())
+                .createUserDate(user.getTimeEntity().getCreateDate())
                 .enabled(user.isEnabled())
                 .provider(user.getProvider())
                 .providerId(user.getProviderId())

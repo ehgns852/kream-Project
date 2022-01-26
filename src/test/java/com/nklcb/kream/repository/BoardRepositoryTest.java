@@ -28,7 +28,7 @@ class BoardRepositoryTest {
     @Test
     public void findByTitleOrContent(){
         //given
-        Board board = Board.createBoard("dobi", "dobi", LocalDateTime.now());
+        Board board = Board.createBoard("dobi", "dobi");
         boardRepository.save(board);
 
         //when
