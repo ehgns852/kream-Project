@@ -35,7 +35,7 @@ public class UserRole {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public void setUser(User user) {
+    protected void setUser(User user) {
         this.user = user;
     }
 
@@ -46,6 +46,10 @@ public class UserRole {
 
     public UserRole(Role role) {
         this.role = role;
+    }
+
+    public void addUserRole(User user){
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.nklcb.kream.entity.item;
 
 import com.nklcb.kream.dto.ItemDto;
+import com.nklcb.kream.entity.OrderItem;
 import com.nklcb.kream.entity.audit.AuditListener;
 import com.nklcb.kream.entity.audit.Auditable;
 import com.nklcb.kream.entity.embedded.TimeEntity;
@@ -10,6 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -42,6 +46,9 @@ public class Item implements Auditable{
     @OneToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "upload_file_id")
     private UploadFile attachFile;
+
+    @OneToMany(mappedBy = "item")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
 
     protected Item(String brandName, String itemName, int price, int stockQuantity) {

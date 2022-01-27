@@ -54,6 +54,9 @@ public class User implements Auditable {
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Board> boards = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
+
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
@@ -68,8 +71,7 @@ public class User implements Auditable {
     public void signUp(String username, String password, UserRole userRole, boolean enabled, LocalDateTime localDateTime, String email) {
         this.username = username;
         this.password = password;
-        this.userRoles.add(userRole);
-        userRole.setUser(this);
+        addUserRole(userRole);
         this.enabled = enabled;
         this.email = email;
 
@@ -92,6 +94,15 @@ public class User implements Auditable {
         userRole.setUser(this);
         this.enabled = enabled;
     }
+
+    /**
+     * 연관관계 편의 메서드
+     */
+    public void addUserRole(UserRole userRole){
+        userRoles.add(userRole);
+        userRole.setUser(this);
+    }
+
 
 
     /**

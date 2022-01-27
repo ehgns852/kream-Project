@@ -54,10 +54,18 @@
 
                         </div>
                         <div class="col-12">
-                            <label for="stockQuantity" class="col-form-label">재고수량</label>
+                            <label for="stockQuantity" class="col-form-label">남은 수량</label>
                             <input type="text" id="stockQuantity" class="form-control" th:classappend="${#fields.hasErrors('stockQuantity')} ? 'is-invalid'" th:field="*{stockQuantity}" readonly>
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}">
                             </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="quantity" class="col-form-label">구매 수량</label>
+                            <input type="text" id="quantity" class="form-control" th:field="${order.quantity}">
+<!--                            <input type="text" id="quantity" class="form-control" th:classappend="${#fields.hasErrors('quantity')} ? 'is-invalid'" th:field="${order.quantity}">-->
+<!--                            <div class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}" th:errors="${order.quantity}">-->
+<!--                            </div>-->
                         </div>
 
                         <!--                                        <input class="form-control" type="file" id="file" multiple="multiple" th:field="*{file}">-->
@@ -66,9 +74,9 @@
                     <p><div class="col-12"></p>
                     <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                         <i class="bi bi-box"></i>
-                        구매하기
+                        구매
                     </button>
-                    <a type="button" class="btn btn-primary" th:href="@{/admin/productManagement}">취소</a>
+                    <a type="button" class="btn btn-primary" th:href="@{/}">취소</a>
                 </div>
                 </form>
 
