@@ -25,7 +25,7 @@ public class OrderDto {
     private Long id;
 
     @Range(min = 1, max = 10, message = "1개 이상 10개 이하로 주문이 가능합니다.")
-    private int quantity;
+    private int purchaseQuantity;
 
     @Embedded
     private TimeEntity timeEntity;

@@ -27,7 +27,8 @@ public class Order implements Auditable {
     @Column(name = "order_id")
     private Long id;
 
-    private int quantity;
+    private int purchaseQuantity;
+
 
     @Embedded
     private TimeEntity timeEntity;
@@ -52,8 +53,8 @@ public class Order implements Auditable {
 
 
     @Builder
-    public Order(int quantity,User user, List<OrderItem> orderItems, OrderStatus orderStatus, Delivery delivery) {
-        this.quantity = quantity;
+    public Order(int purchaseQuantity,User user, List<OrderItem> orderItems, OrderStatus orderStatus, Delivery delivery) {
+        this.purchaseQuantity = purchaseQuantity;
         this.user = user;
         this.orderItems = orderItems;
         this.orderStatus = orderStatus;
