@@ -48,8 +48,13 @@ public class UserRole {
         this.role = role;
     }
 
-    public void addUserRole(User user){
 
+    /**
+     * 연관관계 편의 메서드
+     */
+    public void addUserRole(User user){
+        this.user = user;
+        user.getUserRoles().add(this);
     }
 
 
@@ -65,7 +70,9 @@ public class UserRole {
         return userRole;
     }
 
-
+    /**
+     *정적 팩토리 메서드
+     */
     public static UserRole addRole(Role role) {
         return new UserRole(role);
     }

@@ -44,13 +44,28 @@ public class Order implements Auditable {
     @Enumerated(STRING)
     private OrderStatus orderStatus;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+
+
+
 
     @Builder
-    public Order(int quantity,User user, List<OrderItem> orderItems, OrderStatus orderStatus) {
+    public Order(int quantity,User user, List<OrderItem> orderItems, OrderStatus orderStatus, Delivery delivery) {
         this.quantity = quantity;
         this.user = user;
         this.orderItems = orderItems;
         this.orderStatus = orderStatus;
+        this.delivery = delivery;
+    }
+
+    /**
+     * 연관관계 편의 메서드
+     */
+    public void addUser(User user) {
+        this.user = user;
+        user.getOrders().add(this);
     }
 
     /**

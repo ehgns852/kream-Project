@@ -1,6 +1,8 @@
 package com.nklcb.kream.entity.item;
 
 import com.nklcb.kream.dto.ItemDto;
+import com.nklcb.kream.dto.OrderDto;
+import com.nklcb.kream.entity.ItemCart;
 import com.nklcb.kream.entity.OrderItem;
 import com.nklcb.kream.entity.audit.AuditListener;
 import com.nklcb.kream.entity.audit.Auditable;
@@ -50,6 +52,9 @@ public class Item implements Auditable{
     @OneToMany(mappedBy = "item")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "item")
+    private List<ItemCart> itemCarts = new ArrayList<>();
+
 
     protected Item(String brandName, String itemName, int price, int stockQuantity) {
         this.brandName = brandName;
@@ -58,16 +63,20 @@ public class Item implements Auditable{
         this.stockQuantity = stockQuantity;
     }
 
-
     @Builder
-    public Item(String brandName, String itemName, int price, int stockQuantity, TimeEntity timeEntity, UploadFile attachFile) {
+    public Item(String brandName, String itemName, int price, int stockQuantity, TimeEntity timeEntity, UploadFile attachFile, List<OrderItem> orderItems, List<ItemCart> itemCarts) {
         this.brandName = brandName;
         this.itemName = itemName;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.timeEntity = timeEntity;
         this.attachFile = attachFile;
+        this.orderItems = orderItems;
+        this.itemCarts = itemCarts;
     }
+
+    @Builder
+
 
     /**
      * item 생성 팩토리 메서드
@@ -75,6 +84,24 @@ public class Item implements Auditable{
     public static Item addItem(String brandName, String itemName, int price, int stockQuantity) {
         return new Item(brandName, itemName, price, stockQuantity);
     }
+
+
+    /**
+     *
+     * @param itemDto
+     * @param orderDto
+     * @return
+     */
+    public static Item addItemOrder(ItemDto itemDto,OrderDto orderDto){
+        return Item.builder()
+                .brandName(itemDto.getBrandName())
+                .itemName(itemDto.getItemName())
+                .price(itemDto.getPrice())
+                .stockQuantity(itemDto.getStockQuantity())
+                .attachFile((UploadFile) itemDto.getFile())
+                .build();
+    }
+
 
 
     /**

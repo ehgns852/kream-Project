@@ -3,6 +3,7 @@ package com.nklcb.kream.entity.embedded;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 
@@ -10,6 +11,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Address {
 
     private String city;

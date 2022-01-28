@@ -4,10 +4,11 @@ package com.nklcb.kream.entity;
 import com.nklcb.kream.entity.audit.AuditListener;
 import com.nklcb.kream.entity.audit.Auditable;
 import com.nklcb.kream.entity.embedded.TimeEntity;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

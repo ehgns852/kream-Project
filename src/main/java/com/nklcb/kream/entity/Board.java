@@ -52,7 +52,7 @@ public class Board implements Auditable {
 
 
     /**
-     * 생성 메서드
+     * 연관관계 편의 메서드
      */
     public void addUser(User user) {
         this.user = user;
